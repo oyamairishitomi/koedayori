@@ -1,1 +1,90 @@
 @import "tailwindcss";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "koedayori";
+  default: true;
+  color-scheme: light;
+
+  /* ========================================
+     Base
+     ======================================== */
+
+  --color-base-100: #FFFFFF;
+  --color-base-200: #F7F9F7;
+  --color-base-300: #E1E7E3;
+  --color-base-content: #26332E;
+
+
+  /* ========================================
+     Brand
+     ======================================== */
+
+  --color-primary: #327A68;
+  --color-primary-content: #FFFFFF;
+
+
+  /* ========================================
+     Status
+     ======================================== */
+
+  /* 確認済み */
+  --color-success: #2F8F68;
+  --color-success-content: #FFFFFF;
+
+  /* 未確認 */
+  --color-warning: #D79A24;
+  --color-warning-content: #26332E;
+
+  /* 未着・エラー */
+  --color-error: #C94A4A;
+  --color-error-content: #FFFFFF;
+
+  /* 補足情報 */
+  --color-info: #5FAE8D;
+  --color-info-content: #FFFFFF;
+
+
+  /* ========================================
+     Shape
+     ======================================== */
+
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 0.75rem;
+
+
+  /* ========================================
+     Border / Shadow
+     ======================================== */
+
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+
+/* ========================================
+   Typography
+   ======================================== */
+
+body {
+  font-family:
+    "Hiragino Maru Gothic ProN",
+    YuGothic,
+    sans-serif;
+  color: #26332E;
+  background: #F7F9F7;
+}
+@keyframes draw-circle {
+  from {
+    stroke-dashoffset: 283;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-draw-circle {
+  animation: draw-circle 1s ease-out forwards;
+}

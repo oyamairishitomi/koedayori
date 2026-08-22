@@ -2,18 +2,18 @@
 
 one:
   family: one
-  name: MyString
-  slug: MyString
+  name: Koji Komeda
+  slug: jicai2v3y8qvwt73w
   notify_at: 2026-08-05 23:36:50
-  notification_email: MyString
-  notification_enabled: false
-  active: false
+  notification_email: kouji@kouji.com
+  notifications_enabled: true
+  active: true
 
 two:
   family: two
-  name: MyString
-  slug: MyString
+  name: Hitomi Tezuka
+  slug: 8qvcnp834vt4aali84sve4
   notify_at: 2026-08-05 23:36:50
-  notification_email: MyString
-  notification_enabled: false
+  notification_email: hitomi@hitomi.com
+  notifications_enabled: false
   active: false

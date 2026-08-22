@@ -1,12 +1,14 @@
-<div>
-    <h1 class="font-bold text-4xl">声を受け取りたい家族の新規登録</h1>
+<% content_for(:title, "こえを届けるご家族の追加｜こえだより") %>
+<div class="w-full flex flex-col items-center">
+  <%= render "shared/page_title", text: "こえを届けるご家族の新規登録" %>
+  <%= render "shared/error_messages", messages: @speaker.errors.full_messages %>
 
-    <%= form_with model: @speaker, url: families_speakers_path do |form| %>
-    <div>
-        <%= form.label :name %>
-        <%= form.text_field :name %>
+    <div class="card bg-white rounded-2xl shadow-sm p-8">
+        <%= form_with model: @speaker, url: families_speakers_path do |form| %>
+                <%= form.label :name %>
+                <%= form.text_field :name, class: "input mb-4 w-full"%>
+            <%= form.submit "登録する", class: "btn btn-primary w-full" %>
+        <% end %>
+        <%= link_to "ダッシュボードに戻る", families_speakers_path, class: "btn btn-ghost w-full mt-4" %>
     </div>
-
-    <%= form.submit "登録する" %>
-    <% end %>
 </div>

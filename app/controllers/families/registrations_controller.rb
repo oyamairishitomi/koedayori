@@ -11,13 +11,13 @@ class Families::RegistrationsController < Families::ApplicationController
     if @family.save
       redirect_to new_families_session_path, notice: "登録が完了しました。ログインしてください。"
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
   private
 
   def family_params
-    params.require(:family).permit(:email, :aikotoba, :password)
+    params.require(:family).permit(:email, :aikotoba, :password, :privacy_agreement, :terms_agreement)
   end
 end

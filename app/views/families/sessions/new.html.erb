@@ -1,21 +1,24 @@
-<div>
-  <h1 class="font-bold text-4xl">Families::Sessions#new</h1>
-  <p>Find me in app/views/families/sessions/new.html.erb</p>
-  <div>
-    <h1 class="font-bold text-4xl">ログイン</h1>
+<% content_for(:title, "ログイン｜こえだより") %>
+<div class="w-full flex justify-center items-center">
+  <div class="card flex-col items-center gap-8 p-6 bg-base-100 border border-base-300 w-full max-w-2xl">
 
-    <%= form_with url: families_sessions_path, scope: :family do |form| %>
+    <%= render "shared/page_title", text: "ログイン" %>
+    <%= image_tag "koedayori_mv2.png", alt: "こえだよりのイメージ画像", class: "w-96" %>
+    <%= render "shared/error_messages", messages: [flash[:alert]].compact %>
+    <%= render "shared/success_messages", messages: [flash[:notice]].compact %>
+
+    <%= form_with url: families_sessions_path, class: "w-full", model: Family.new do |form| %>
       <div>
-        <%= form.label :aikotoba %>
-        <%= form.text_field :aikotoba %>
+        <%= form.label :aikotoba, class: "label text-base mb-4"  %>
+        <%= form.text_field :aikotoba, class: "input mb-4 w-full" , placeholder: "例）yamadafamily" %>
       </div>
 
       <div>
-        <%= form.label :password %>
-        <%= form.password_field :password %>
+        <%= form.label :password, class: "label text-base mb-4" %>
+        <%= form.password_field :password , class: "input mb-4 w-full"%>
       </div>
 
-      <%= form.submit "ログイン" %>
+      <%= form.submit "ログイン", class: "btn btn-primary w-full" %>
     <% end %>
   </div>
 </div>

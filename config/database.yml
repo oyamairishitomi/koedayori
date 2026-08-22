@@ -87,6 +87,7 @@ test:
 production:
   primary: &primary_production
     <<: *default
+    host: <%= ENV["DB_HOST"] %>
     database: koedayori_production
     username: koedayori
     password: <%= ENV["KOEDAYORI_DATABASE_PASSWORD"] %>

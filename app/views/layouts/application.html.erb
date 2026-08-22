@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
-    <title><%= content_for(:title) || "Koedayori" %></title>
+    <title><%= content_for(:title) || "こえだより｜「こえ」でつながる、やさしい安心。" %></title>
+    <meta name="description" content="離れて暮らすご家族の声を録音して届ける、シンプルな声のメッセージサービス。かんたん録音・スマホだけで完結。">
+    <meta name="keywords" content="こえだより,見守り,実家,離れて暮らす家族,声のメッセージ,高齢者,安否確認">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Koedayori">
     <meta name="mobile-web-app-capable" content="yes">
+
+    <meta property="og:title" content="こえだより｜「こえ」でつながる、やさしい安心。">
+    <meta property="og:description" content="離れて暮らすご家族の声を録音して届ける、シンプルな声のメッセージサービス。かんたん録音・スマホだけで完結。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://koe.life">
+    <meta property="og:image" content="<%= image_url("koedayori_sns.png") %>">
+    <meta property="og:site_name" content="こえだより">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="こえだより｜「こえ」でつながる、やさしい安心。">
+    <meta name="twitter:description" content="離れて暮らすご家族の声を録音して届ける、シンプルな声のメッセージサービス。かんたん録音・スマホだけで完結。">
+    <meta name="twitter:image" content="<%= image_url("koedayori_sns.png") %>">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -14,18 +29,72 @@
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="icon" href="<%= asset_path("favicon.png") %>" type="image/png">
+    <link rel="apple-touch-icon" href="<%= asset_path("favicon.png") %>">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
+  <body class="min-h-screen flex flex-col">
+  <% unless content_for?(:hide_header) %>
+    <%if current_family %>
+    <div class="navbar bg-primary shadow-sm">
+      <div class="container mx-auto px-5 flex">
+        <div class="navbar-start">
+          <%= link_to families_speakers_path, class: "flex items-center gap-2 text-xl text-white" do %>
+            <%= image_tag "koedayori_icon.png", alt: "こえだよりのイメージマーク", class: "w-8 h-8" %>
+            <%= image_tag "koedayori_logo_white.png", alt: "タイトル「こえだより」", class: "w-32 mx-auto md:mx-0" %>
+          <% end %>
+        </div>
+        <div class="navbar-end gap-4">
+          <div class="hidden sm:flex items-center gap-4">
+            <%= link_to "今日のこえ", families_speakers_path, class: "whitespace-nowrap text-s text-neutral-content" %>
+            <%= link_to "設定", families_settings_path, class: "whitespace-nowrap text-s text-neutral-content" %>
+            <%= current_family ? link_to("ログアウト", families_session_path(current_family), data: { turbo_method: :delete }, class: "whitespace-nowrap btn btn-soft") : link_to("ログイン", new_families_session_path, class: "btn btn-neutral") %>
+          </div>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+          <div class="dropdown dropdown-end sm:hidden">
+            <div tabindex="0" role="button" class="btn btn-ghost text-white text-xl">☰</div>
+            <ul tabindex="-1" class="dropdown-content menu bg-base-100 text-primary rounded-box z-10 w-52 p-2 shadow-sm">
+              <li><%= link_to "今日のこえ", families_speakers_path %></li>
+              <li><%= link_to "設定", families_settings_path %></li>
+              <li><%= current_family ? link_to("ログアウト", families_session_path(current_family), data: { turbo_method: :delete }) : link_to("ログイン", new_families_session_path) %></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% else %>
+    <div class="navbar bg-primary shadow-sm">
+      <div class="container mx-auto px-5 flex">
+        <div class="navbar-start">
+          <%= link_to root_path, class: "flex items-center gap-2 text-xl text-white" do %>
+            <%= image_tag "koedayori_icon.png", alt: "こえだよりのイメージマーク", class: "w-8 h-8" %>
+            <%= image_tag "koedayori_logo_white.png", alt: "タイトル「こえだより」", class: "w-32 mx-auto md:mx-0" %>
+          <% end %>
+        </div>
+        <div class="navbar-end gap-4">
+          <div class="flex items-center gap-4">
+            <%= link_to("新規登録", new_families_registration_path, class: "btn btn-primary") %>
+            <%= link_to("ログイン", new_families_session_path, class: "btn btn-primary-content") %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <% end %>
+    <% end %>
+    <main class="container mx-auto px-5 flex flex-1 mt-8">
       <%= yield %>
     </main>
+  
+  <footer class="footer items-center mx-auto container mx-auto px-5 py-6 bg-base-200 text-base-content mt-auto rounded-t-2xl">
+  <div class="items-center grid-flow-col gap-4">
+    <p class="text-sm opacity-70">© 2026 こえだより</p>
+    <%= link_to "プライバシーポリシー", privacy_path, class: "text-sm opacity-70" %>
+    <%= link_to "利用規約", terms_path, class: "text-sm opacity-70" %>
+  </div>
+</footer>
+
   </body>
 </html>

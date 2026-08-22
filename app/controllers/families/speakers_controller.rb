@@ -25,7 +25,7 @@ class Families::SpeakersController < Families::ApplicationController
   end
 
   def edit
-    @speaker = current_family.speakers.find(params[:id])   
+    @speaker = current_family.speakers.find(params[:id])
   end
 
   def new
@@ -36,9 +36,9 @@ class Families::SpeakersController < Families::ApplicationController
     @speaker = current_family.speakers.new(speakers_params)
 
     if @speaker.save
-      redirect_to families_speakers_path(@speaker), notice: "ご家族の登録が完了しました。"
+      redirect_to families_speaker_path(@speaker), notice: "ご家族の登録が完了しました。"
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 

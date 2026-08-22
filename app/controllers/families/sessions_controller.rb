@@ -12,7 +12,8 @@ class Families::SessionsController < Families::ApplicationController
       session[:family_id] = family.id
       redirect_to families_speakers_path
     else
-      render :new
+      flash.now[:alert] = "ログインに失敗しました"
+      render :new, status: :unprocessable_entity
     end
   end
 

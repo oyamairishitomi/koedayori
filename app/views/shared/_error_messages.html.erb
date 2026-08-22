@@ -1,0 +1,9 @@
+<% if messages.present? %>
+    <div id="error_explanation">
+        <ul class="text-sm w-full text-error">
+            <% messages.each do |message| %>
+                <li>💡 <%= message %></li>
+            <% end %>
+        </ul>
+    </div>
+<% end %>

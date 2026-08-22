@@ -1,0 +1,106 @@
+<div class="flex flex-col w-full">
+  <div class="flex flex-col md:flex-row items-center gap-8 py-6">
+    <div class="flex-1">
+      <%= image_tag "koedayori_mv.png", alt: "こえだよりのイメージ画像", class: "w-full rounded-2xl mx-auto" %>
+    </div>
+    <div class="flex-1 text-center md:text-left">
+      <h2 class="text-4xl font-bold mb-4 text-primary">大切な人の「こえ」で<br>まいにちの安心を</h2>
+      <p class="text-lg mb-4">こえだよりは、「こえ」をふきこむだけで大切な人の「元気」を届ける見守りサービスです。</p>
+      <%= link_to "無料で登録する", new_families_registration_path, class: "btn btn-primary mb-4 btn-lg" %>
+      <%= link_to "ログインする", new_families_session_path, class: "btn btn-primary-content mb-4 btn-lg" %>
+    </div>
+  </div>
+  <div class="w-screen relative left-1/2 -translate-x-1/2">
+    <h1 class="text-2xl font-bold mt-8 mb-4 text-center">こえだよりはこんなサービスです</h1>
+    <div class="flex flex-col md:flex-row items-center justify-center gap-8 pb-8 px-5">
+      <div class="text-center max-w-xs">
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-primary w-8 h-8">
+            <path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5Z"/>
+            <path d="M6 10.5a.75.75 0 0 1 .75.75v1.5a5.25 5.25 0 1 0 10.5 0v-1.5a.75.75 0 0 1 1.5 0v1.5a6.751 6.751 0 0 1-6 6.709v2.291h3a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5h3v-2.291a6.751 6.751 0 0 1-6-6.709v-1.5A.75.75 0 0 1 6 10.5Z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold mb-4">1日1回、「こえ」をふきこむだけ</h3>
+        <p class="text-sm">見守りたいご家族はお題にそって「こえ」をふきこむだけ。文字入力は不要です。</p>
+      </div>
+      <div class="text-center max-w-xs">
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-primary w-8 h-8">
+            <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z"/>
+            <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold mb-4">ご家族に「こえ」が届く</h3>
+        <p class="text-sm">「こえ」は自動でご家族に届きます。「こえ」はダッシュボードに保存され、何度も聞き返せます。</p>
+      </div>
+      <div class="text-center max-w-xs">
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-primary w-8 h-8">
+            <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z"/>
+          </svg>
+        </div>
+        <h3 class="text-lg font-bold mb-4">あんしんの見守り</h3>
+        <p class="text-sm">未着や変化があればお知らせ。離れていても、しっかり見守れます。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="w-screen relative left-1/2 -translate-x-1/2 bg-base-300 py-8">
+    <h1 class="text-2xl font-bold mb-8 text-center">ご利用はかんたん3ステップ</h1>
+    <div class="flex flex-col md:flex-row items-center justify-center gap-4 px-5">
+      <div class="text-center max-w-xs">
+        <div class="flex items-center justify-center gap-2 mb-2">
+          <span class="badge badge-primary badge-sm">1</span>
+          <h3 class="text-lg font-bold">アカウントを作成</h3>
+        </div>
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-primary w-8 h-8">
+            <path fill-rule="evenodd" d="M2.25 5.25a3 3 0 0 1 3-3h13.5a3 3 0 0 1 3 3V15a3 3 0 0 1-3 3h-3v.257c0 .597.237 1.17.659 1.591l.621.622a.75.75 0 0 1-.53 1.28h-9a.75.75 0 0 1-.53-1.28l.621-.622a2.25 2.25 0 0 0 .659-1.59V18h-3a3 3 0 0 1-3-3V5.25Zm1.5 0v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5Z" clip-rule="evenodd"/>
+          </svg>
+        </div>
+        <p class="text-sm">メールアドレスを入力して、アカウントを作成します。</p>
+      </div>
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="hidden md:block text-primary w-8 h-8 shrink-0">
+        <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd"/>
+      </svg>
+
+      <div class="text-center max-w-xs">
+        <div class="flex items-center justify-center gap-2 mb-2">
+          <span class="badge badge-primary badge-sm">2</span>
+          <h3 class="text-lg font-bold">ご家族を追加</h3>
+        </div>
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-primary w-8 h-8">
+            <path d="M5.25 6.375a4.125 4.125 0 1 1 8.25 0 4.125 4.125 0 0 1-8.25 0ZM2.25 19.125a7.125 7.125 0 0 1 14.25 0v.003l-.001.119a.75.75 0 0 1-.363.63 13.067 13.067 0 0 1-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 0 1-.364-.63l-.001-.122ZM18.75 7.5a.75.75 0 0 0-1.5 0v2.25H15a.75.75 0 0 0 0 1.5h2.25v2.25a.75.75 0 0 0 1.5 0v-2.25H21a.75.75 0 0 0 0-1.5h-2.25V7.5Z"/>
+          </svg>
+        </div>
+        <p class="text-sm">見守りたいご家族を登録します。</p>
+      </div>
+
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="hidden md:block text-primary w-8 h-8 shrink-0">
+        <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd"/>
+      </svg>
+
+      <div class="text-center max-w-xs">
+        <div class="flex items-center justify-center gap-2 mb-2">
+          <span class="badge badge-primary badge-sm">3</span>
+          <h3 class="text-lg font-bold">「こえ」のふきこみを開始</h3>
+        </div>
+        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="text-primary w-8 h-8">
+            <path d="M8.25 4.5a3.75 3.75 0 1 1 7.5 0v8.25a3.75 3.75 0 1 1-7.5 0V4.5Z"/>
+            <path d="M6 10.5a.75.75 0 0 1 .75.75v1.5a5.25 5.25 0 1 0 10.5 0v-1.5a.75.75 0 0 1 1.5 0v1.5a6.751 6.751 0 0 1-6 6.709v2.291h3a.75.75 0 0 1 0 1.5h-7.5a.75.75 0 0 1 0-1.5h3v-2.291a6.751 6.751 0 0 1-6-6.709v-1.5A.75.75 0 0 1 6 10.5Z"/>
+          </svg>
+        </div>
+        <p class="text-sm">お題にそって「こえ」をふきこむだけ。「あいことば」を知っていれば、ご家族のどなたでもこえを聞くことができます。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center py-12 px-5">
+    <h2 class="text-2xl font-bold mb-2">アプリのインストールは不要、まずは<span class="text-warning">無料で</span>お試しください</h2>
+    <p class="text-sm mb-6">登録は1分で完了します。いつでも始められます。</p>
+    <%= link_to "無料で登録する", new_families_registration_path, class: "btn btn-primary btn-lg" %>
+  </div>
+</div>

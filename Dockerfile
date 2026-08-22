@@ -36,6 +36,15 @@ RUN apt-get update -qq && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Install application gems
+# Install Node.js for Tailwind/DaisyUI asset building
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y nodejs npm && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Install JS dependencies (needed for DaisyUI Tailwind plugin)
+COPY package.json package-lock.json ./
+RUN npm install
+
 COPY vendor/* ./vendor/
 COPY Gemfile Gemfile.lock ./
 

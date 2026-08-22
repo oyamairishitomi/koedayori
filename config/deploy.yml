@@ -2,12 +2,12 @@
 service: koedayori
 
 # Name of the container image (use your-user/app-name on external registries).
-image: koedayori
+image: oyamairishitomi/koedayori
 
 # Deploy to these servers.
 servers:
   web:
-    - 192.168.0.1
+    - 160.251.175.222
   # job:
   #   hosts:
   #     - 192.168.0.1
@@ -23,27 +23,34 @@ servers:
 # proxy:
 #   ssl: true
 #   host: app.example.com
+proxy:
+  run:
+    http_port: 8080
+    https_port: 8443
+
 
 # Where you keep your container images.
 registry:
   # Alternatives: hub.docker.com / registry.digitalocean.com / ghcr.io / ...
-  server: localhost:5555
+  server: ghcr.io
 
   # Needed for authenticated registries.
-  # username: your-user
+  username: oyamairishitomi
 
   # Always use an access token rather than real password when possible.
-  # password:
-  #   - KAMAL_REGISTRY_PASSWORD
+  password:
+     - KAMAL_REGISTRY_PASSWORD
 
 # Inject ENV variables into containers (secrets come from .kamal/secrets).
 env:
   secret:
     - RAILS_MASTER_KEY
+    - KOEDAYORI_DATABASE_PASSWORD
   clear:
     # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
     # When you start using multiple servers, you should split out job processing to a dedicated machine.
     SOLID_QUEUE_IN_PUMA: true
+    DB_HOST: koedayori-db
 
     # Set number of processes dedicated to Solid Queue (default: 1)
     # JOB_CONCURRENCY: 3
@@ -91,29 +98,22 @@ builder:
   #   - RAILS_MASTER_KEY
 
 # Use a different ssh user than root
-# ssh:
-#   user: app
+ssh:
+  user: hitomi
+  port: 22222
+
 
 # Use accessory services (secrets come from .kamal/secrets).
-# accessories:
-#   db:
-#     image: mysql:8.0
-#     host: 192.168.0.2
-#     # Change to 3306 to expose port to the world instead of just local network.
-#     port: "127.0.0.1:3306:3306"
-#     env:
-#       clear:
-#         MYSQL_ROOT_HOST: '%'
-#       secret:
-#         - MYSQL_ROOT_PASSWORD
-#     files:
-#       - config/mysql/production.cnf:/etc/mysql/my.cnf
-#       - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
-#     directories:
-#       - data:/var/lib/mysql
-#   redis:
-#     image: valkey/valkey:8
-#     host: 192.168.0.2
-#     port: 6379
-#     directories:
-#       - data:/data
+accessories:
+  db:
+    image: postgres:16
+    host: 160.251.175.222
+    port: "127.0.0.1:5433:5432"
+    env:
+      clear:
+        POSTGRES_USER: koedayori
+        POSTGRES_DB: koedayori_production
+      secret:
+        - POSTGRES_PASSWORD
+    directories:
+      - data:/var/lib/postgresql/data

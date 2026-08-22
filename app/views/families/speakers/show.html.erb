@@ -1,15 +1,40 @@
-<h1>セットアップ</h1>
-ご家族の初期セットアップ<br>
-１　声を受け取りたいご家族をこちらから登録してください。<br>
-２　声を受け取りたいご家族のスマホで以下を読み取ってください。<br>
-<%= @speaker.name %><br>
-<%= speaker_qrcode %><br>
+<% content_for(:title, "#{@speaker.name}さんのセットアップ｜こえだより") %>
+<div class="w-full">
+  <%= render "shared/page_title", text: "#{@speaker.name}さんからこえを受け取りましょう" %>
+      <div class="card bg-white rounded-2xl shadow-sm p-8">
+        <div class="mt-4 flex justify-center">
+            <%= speaker_qrcode %>
+        </div>
+        <div class="flex flex-col items-center gap-2 mt-4 max-w-xs mx-auto">
+            <%= link_to "LINEで送る", "https://line.me/R/msg/text/?#{ERB::Util.url_encode("こえだよりの吹き込みページはこちら\n#{speaker_share_url(@speaker)}")}", target: "_blank", rel: "noopener", class: "btn btn-outline btn-primary" %>
+            <button type="button" data-controller="clipboard" data-clipboard-url-value="<%= speaker_share_url(@speaker) %>" data-action="click->clipboard#copy" class="btn btn-outline">URLをコピー</button>
+        </div>
+        <div class="divider my-2"></div>
 
-３　ホーム画面に固定してください。<br>
+        <ul class="steps steps-vertical">
+            <li class="step step-primary text-left">スマートフォンで以下のQRコードを読み取ってください。</li>
+            <li class="step step-primary text-left">初めて吹き込みをする際、「マイクの使用を許可しますか？」と聞かれる場合があります。その際は「許可」を選んでください。</li>
+            <li class="step step-primary text-left">ホーム画面に追加しておくとスムーズです。</li>
+        </ul>
+        <h2 class="text-lg font-bold mb-3 mt-6">ホーム画面への追加方法（推奨）</h2>
+        <p>QRコードで読み込んだ録音ページを以下の手順でホーム画面に固定すると、ご家族がスムーズにアクセスできるようになります。</p>
+        <div class="tabs tabs-border mt-4">
+          <input type="radio" name="my_tabs" class="tab" aria-label="登録するご家族がiPhoneの場合(Safari)" checked="checked" />
+          <div class="tab-content border-base-300 bg-base-100 p-10">
+            <p>① Safariでこのページを開いた状態で、画面下の「共有」ボタン(四角に上矢印のマーク)をタップ</p>
+            <p>② 一覧を下にスクロールし、「ホーム画面に追加」をタップ</p>
+            <p>③ 右上の「追加」をタップ</p>
+            <p>④ テストで一度吹き込みを行い、こえを届ける人に無事届くかご確認ください</p>
+          </div>
 
-iPhoneの場合<br>
-うんたらかんたら<br>
-<br>
-Androidの場合<br>
-うんたらかんたら<br>
-（バージョンやメーカーで一部異なる場合があります）<br>
+          <input type="radio" name="my_tabs" class="tab" aria-label="登録するご家族がAndroidの場合(Chrome)" />
+          <div class="tab-content border-base-300 bg-base-100 p-10">
+            <p>① Chromeでこのページを開いた状態で、右上の「︙」(縦の三点リーダー)をタップ</p>
+            <p>② 「ホーム画面に追加」をタップ</p>
+            <p>③ 表示されたアイコン名を確認し、「追加」をタップ</p>
+            <p>④ テストで一度吹き込みを行い、こえを届ける人に無事届くかご確認ください</p>
+          </div>
+        </div>
+        <%= link_to "今日のこえ にもどる", families_speakers_path, class: "btn btn-ghost w-full mt-4" %>
+          </div>
+</div>

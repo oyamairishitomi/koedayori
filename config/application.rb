@@ -24,5 +24,7 @@ module Koedayori
     config.time_zone = "Tokyo"
     config.i18n.default_locale = :ja
     # config.eager_load_paths << Rails.root.join("extras")
+    # don't treat tailwindcss as our default template_engine
+    config.generators.template_engine :erb
   end
 end

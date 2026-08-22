@@ -1,0 +1,48 @@
+<div class="w-full">
+  <%= render "shared/page_title", text: "プライバシーポリシー" %>
+
+  <div class="card bg-white rounded-2xl shadow-sm p-8 max-w-3xl mx-auto text-left">
+    <p class="mb-6">こえだより（以下「本サービス」といいます）は、個人により運営されています。本サービスをご利用いただくにあたり、お預かりする情報の取り扱いについて、以下のとおりプライバシーポリシー（以下「本ポリシー」といいます）を定めます。</p>
+
+    <h2 class="text-xl font-bold mt-6 mb-2">1. 収集する情報</h2>
+    <p class="mb-2">本サービスでは、ご利用にあたり以下の情報をお預かりします。</p>
+    <ul class="list-disc pl-6 mb-6">
+      <li>ご家族（ご登録者）のメールアドレス、パスワード（暗号化して保存します）、あいことば</li>
+      <li>吹き込みを行う方のお名前</li>
+      <li>吹き込まれた音声データ</li>
+    </ul>
+
+    <h2 class="text-xl font-bold mt-6 mb-2">2. 利用目的</h2>
+    <p class="mb-2">お預かりした情報は、以下の目的のために利用します。</p>
+    <ul class="list-disc pl-6 mb-6">
+      <li>本サービスの提供、本人確認・ログイン認証のため</li>
+      <li>音声メッセージの保存・再生のため</li>
+      <li>ご家族への通知メール送信のため</li>
+      <li>不具合の調査、お問い合わせへの対応のため</li>
+    </ul>
+
+    <h2 class="text-xl font-bold mt-6 mb-2">3. 音声データの保存先</h2>
+    <p class="mb-6">吹き込まれた音声データは、Cloudflare社が提供するオブジェクトストレージサービス「Cloudflare R2」に保存されます。それ以外の第三者への音声データの提供は行いません。</p>
+
+    <h2 class="text-xl font-bold mt-6 mb-2">4. 第三者提供</h2>
+    <p class="mb-6">法令に基づく場合を除き、ご本人の同意なく個人情報を第三者に提供することはありません。</p>
+
+    <h2 class="text-xl font-bold mt-6 mb-2">5. Cookieの利用</h2>
+    <p class="mb-6">本サービスでは、ログイン状態を維持するための必要最小限のCookie（セッションCookie）を利用します。広告配信や第三者による解析目的でのCookie・アクセス解析ツールは使用していません。</p>
+
+    <h2 class="text-xl font-bold mt-6 mb-2">6. 情報の保管・削除</h2>
+    <p class="mb-6">ご登録情報および音声データは、退会手続きが行われた場合、速やかに削除いたします。削除をご希望の場合は、設定画面からの退会手続き、または下記お問い合わせ先までご連絡ください。</p>
+
+    <h2 class="text-xl font-bold mt-6 mb-2">7. 安全管理措置</h2>
+    <p class="mb-6">パスワードは復元できない形式で暗号化して保存するなど、お預かりした情報の漏えい・滅失・毀損の防止に努めます。</p>
+
+    <h2 class="text-xl font-bold mt-6 mb-2">8. 本ポリシーの変更</h2>
+    <p class="mb-6">本ポリシーの内容は、必要に応じて予告なく変更することがあります。変更後のポリシーは、本ページに掲載した時点から効力を生じるものとします。</p>
+
+    <h2 class="text-xl font-bold mt-6 mb-2">9. お問い合わせ</h2>
+    <p class="mb-6">本ポリシーに関するお問い合わせは、下記までご連絡ください。<br>
+    <%= mail_to "koedayori.info@proton.me" %></p>
+
+    <p class="text-sm opacity-70 mt-8">制定日: 2026年8月19日</p>
+  </div>
+</div>

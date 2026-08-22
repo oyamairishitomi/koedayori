@@ -2,20 +2,23 @@ Rails.application.routes.draw do
   get "speakers/:slug" => "speakers#show", as: :speaker
   post "speakers/:slug/posts" => "posts#create"
   namespace :families do
-    resources :sessions, only: [:new, :create, :destroy]
-    resources :registrations, only: [:new, :create]
-    resources :settings, only: [:index]
-    resources :withdrawals, only: [:new, :create]
+    resources :sessions, only: [ :new, :create, :destroy ]
+    resources :registrations, only: [ :new, :create ]
+    resource :settings, only: [ :show, :update ]
+    resources :withdrawals, only: [ :new, :create ]
     post "playbacks/:post_id" => "playbacks#create"
-    resources :speakers, only: [:index, :new, :create, :show, :edit, :update] do
-      resources :posts, only: [:index]
+    resources :speakers, only: [ :index, :new, :create, :show, :edit, :update ] do
+      resources :posts, only: [ :index ]
       member do
         patch "deactivate"
       end
     end
   end
 
-  root "families/sessions#new"
+  get "privacy" => "static_pages#privacy"
+  get "terms" => "static_pages#terms"
+
+  root "home#index"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

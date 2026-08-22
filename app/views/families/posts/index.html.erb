@@ -1,17 +1,42 @@
-<div>
-  <h1 class="font-bold text-4xl">Families::Post#index</h1>
-  <p>Find me in app/views/families/post/index.html.erb</p>
-  <p>ご家族の名前</p>
-    <%= @speaker.name %>
+<% content_for(:title, "#{@speaker.name}さんのこえ一覧｜こえだより") %>
+<div class="w-full">
+  <%= render "shared/page_title", text: "#{@speaker.name}さんのこえを聞きましょう" %>
 
 <div class="posts-list">
-  <% @speaker.posts.each do |post| %>
-    <div class="posts-item">
-      <%= audio_tag(post.audio, controls: true, data: { controller: "playback", playback_post_id_value: post.id, action: "play->playback#markPlayed"}) %>
-      <%= post.created_at %>
-      <%= post.played_at? ? "既読" : "未読" %>
+  <% @posts.order(created_at: :desc).each do |post| %>
+    <div class="posts-item card bg-white shadow-sm m-4 p-4 flex flex-row justify-between items-center" data-controller="playback" data-playback-post-id-value="<%= post.id %>">
+      <div class="readstatus flex flex-col items-start gap-1 shrink-0">
+        <div data-playback-target="readBadge" class="badge <%= post.played_at? ? "badge-success" : "badge-error" %>">
+          <%= post.played_at? ? "誰かがもう聞きました" : "まだ確認されていません" %>
+        </div>
+        <div class="text-sm"><%= post.created_at.strftime("%Y/%m/%d %H:%M") %></div>
+        <span class="text-m font-semibold"><%= post.theme&.title %></span>
+      </div>
+
+      <div class="player flex-1 min-w-0 ml-4">
+        <div class="flex items-center gap-2 w-full bg-base-200 px-4 py-2 rounded-full">
+          <button data-playback-target="playButton" data-action="click->playback#togglePlay" class="btn btn-circle btn-primary w-12 h-12 rounded-full flex items-center justify-center" aria-label="再生">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5">
+              <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd"/>
+            </svg>
+          </button>
+          <div class="relative flex-1 h-2 bg-base-300 rounded-full">
+            <div data-playback-target="progressBar" class="absolute inset-y-0 left-0 h-full bg-primary rounded-full w-0 pointer-events-none">
+              <div class="w-3 h-3 rounded-full bg-primary absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2 hidden" data-playback-target="seekHandle"></div>
+            </div>
+            <input type="range" min=0 max=100 value=0 data-playback-target="seekInput" data-action="input->playback#seek" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+          </div>
+          <%= audio_tag(post.audio, hidden: true, data: { playback_target: "audio", action: "play->playback#markPlayed timeupdate->playback#updateProgress ended->playback#resetButton"}) %>
+        </div>
+      </div>
     </div>
   <% end %>
+  <% if @posts.first == nil %>
+  まだこえの吹き込みがありません。
+  <%= link_to "こちらから登録をお願いしてみましょう。", families_speaker_path(@speaker), class: "underline" %>
+  <% end %>
+  <%= paginate @posts %>
+
 </div>
 
 </div>
