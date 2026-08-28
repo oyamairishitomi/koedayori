@@ -1,25 +1,38 @@
 <% content_for(:title, "ログイン｜こえだより") %>
-<div class="w-full flex justify-center items-center">
-  <div class="card flex-col items-center gap-8 p-6 bg-base-100 border border-base-300 w-full max-w-2xl">
+<% content_for :hide_header, true %>
+<div class="flex w-full flex-col items-center gap-6 px-5 pt-8 md:pt-10">
+  <%= link_to root_path, class: "mb-4 block w-56 md:w-72" do %>
+    <%= image_tag "koedayori_brand_green.webp", alt: "こえだより トップページへ", class: "w-full" %>
+  <% end %>
 
-    <%= render "shared/page_title", text: "ログイン", margin: "mb-2" %>
-    <%= image_tag "koedayori_mv2.png", alt: "こえだよりのイメージ画像", class: "w-48" %>
+  <div class="card w-full max-w-xl flex-col items-center gap-6 border border-base-300 bg-base-100 p-6">
+
+    <%= image_tag "koedayori_mv2.webp", alt: "", class: "w-48" %>
+    <%= render "shared/page_title", text: "ログイン" %>
     <%= render "shared/error_messages", messages: [flash[:alert]].compact %>
     <%= render "shared/success_messages", messages: [flash[:notice]].compact %>
 
     <%= form_with url: families_sessions_path, class: "w-full", model: Family.new do |form| %>
-      <div>
-        <%= form.label :aikotoba, class: "label text-base mb-4"  %>
-        <%= form.text_field :aikotoba, class: "input mb-4 w-full" , placeholder: "例）yamadafamily" %>
+      <div class="mb-6">
+        <fieldset class="fieldset py-0">
+          <%= form.label :aikotoba, class: "label text-base text-base-content" %>
+          <%= form.text_field :aikotoba, class: "input w-full", placeholder: "例）yamadafamily" %>
+        </fieldset>
       </div>
 
-      <div>
-        <%= form.label :password, class: "label text-base mb-4" %>
-        <%= form.password_field :password , class: "input mb-4 w-full"%>
+      <div class="mb-6">
+        <fieldset class="fieldset py-0">
+          <%= form.label :password, class: "label text-base text-base-content" %>
+          <%= form.password_field :password, class: "input w-full" %>
+        </fieldset>
       </div>
-      <div class="flex justify-center">
-      <%= form.submit "ログイン", class: "btn btn-primary btn-lg" %>
-      </div>
+
+      <%= form.submit "ログイン", class: "btn btn-primary mx-auto flex min-h-12 w-full max-w-sm text-base font-bold" %>
+      <p class="mt-4 text-center">
+        <%= link_to "新規会員登録はこちら", new_families_registration_path, class: "link link-primary" %>
+      </p>
     <% end %>
   </div>
+
+  <%= link_to "トップページ", root_path, class: "mt-2 text-primary underline underline-offset-4" %>
 </div>

@@ -31,20 +31,4 @@ class SpeakerTest < ActiveSupport::TestCase
     end
   end
 
-  test "active, notifications_needed?がtrueの場合、:needs_attentionはtrue" do
-    travel_to Time.zone.local(2026, 8, 1, 10, 0, 0) do
-      speaker = Speaker.create(family: families(:one), name: "テスト", notifications_enabled: true, active: true, notify_at: Time.zone.local(2026, 8, 1, 8, 0, 0))
-      assert_equal :needs_attention, speaker.status
-    end
-  end
-
-  test "activeがtrue, notifications_needed?がfalseの場合、statusは:waiting" do
-    speaker = Speaker.create(family: families(:one), name: "テスト", notifications_enabled: false, active: true)
-    assert_equal :waiting, speaker.status
-  end
-
-  test "activeがfalseならinactive" do
-    speaker = Speaker.create(family: families(:one), name: "テスト", notifications_enabled: false, active: false)
-    assert_equal :inactive, speaker.status
-  end
 end

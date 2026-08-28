@@ -26,7 +26,7 @@
 
     <%= yield :head %>
 
-    <%# 将来の改修のため残す：Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
 
     <link rel="icon" href="<%= asset_path("favicon.png") %>" type="image/png">
@@ -39,39 +39,41 @@
   <body class="min-h-screen flex flex-col">
   <% unless content_for?(:hide_header) %>
     <%if current_family %>
-    <div class="navbar bg-primary shadow-sm">
-      <div class="container mx-auto px-5 flex">
+    <div class="navbar bg-primary px-4 shadow-sm sm:px-2">
+      <div class="container mx-auto flex px-0 sm:px-5">
         <div class="navbar-start">
-          <%= link_to families_speakers_path, class: "flex items-center gap-2 text-xl text-white" do %>
-            <%= image_tag "koedayori_icon.png", alt: "こえだよりのイメージマーク", class: "w-8 h-8" %>
-            <%= image_tag "koedayori_logo_white.png", alt: "タイトル「こえだより」", class: "w-32 mx-auto md:mx-0" %>
+          <%= link_to families_speakers_path do %>
+            <%= image_tag "koedayori_brand_white.webp", alt: "こえだより", class: "h-5 w-auto sm:h-8" %>
           <% end %>
         </div>
         <div class="navbar-end gap-4">
           <div class="hidden sm:flex items-center gap-4">
-            <%= link_to "今日のこえ", families_speakers_path, class: "whitespace-nowrap text-s text-neutral-content" %>
+            <%= link_to "今日の「こえ」", families_speakers_path, class: "whitespace-nowrap text-s text-neutral-content" %>
             <%= link_to "設定", families_settings_path, class: "whitespace-nowrap text-s text-neutral-content" %>
-            <%= current_family ? link_to("ログアウト", families_session_path(current_family), data: { turbo_method: :delete }, class: "whitespace-nowrap text-s text-neutral-content/70 ml-2 pl-2 border-l border-neutral-content/30") : link_to("ログイン", new_families_session_path, class: "btn btn-neutral") %>
+            <%= current_family ? link_to("ログアウト", families_session_path(current_family), data: { turbo_method: :delete }, class: "whitespace-nowrap text-sm text-primary-content/80 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-4") : link_to("ログイン", new_families_session_path, class: "btn btn-neutral") %>
           </div>
 
-          <div class="dropdown dropdown-end sm:hidden">
-            <div tabindex="0" role="button" class="btn btn-ghost text-white text-xl">☰</div>
-            <ul tabindex="-1" class="dropdown-content menu bg-base-100 text-primary rounded-box z-10 w-52 p-2 shadow-sm">
-              <li><%= link_to "今日のこえ", families_speakers_path %></li>
-              <li><%= link_to "設定", families_settings_path %></li>
-              <li class="mt-2 pt-2 border-t border-base-300"><%= current_family ? link_to("ログアウト", families_session_path(current_family), data: { turbo_method: :delete }) : link_to("ログイン", new_families_session_path) %></li>
-            </ul>
-          </div>
+          <details class="dropdown dropdown-end translate-x-4 sm:hidden">
+            <summary class="btn btn-ghost list-none text-white" aria-label="メニューを開く">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-7" aria-hidden="true">
+                <path stroke-linecap="round" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </summary>
+            <nav class="dropdown-content z-10 mt-2 flex w-52 flex-col rounded-box bg-base-100 p-2 text-primary shadow-sm" aria-label="スマホ用メニュー">
+              <%= link_to "今日の「こえ」", families_speakers_path, class: "rounded-lg px-4 py-2 hover:bg-base-200" %>
+              <%= link_to "設定", families_settings_path, class: "rounded-lg px-4 py-2 hover:bg-base-200" %>
+              <%= link_to "ログアウト", families_session_path(current_family), data: { turbo_method: :delete }, class: "mt-2 border-t border-base-300 px-4 pb-2 pt-3 text-sm opacity-70 hover:bg-base-200" %>
+            </nav>
+          </details>
         </div>
       </div>
     </div>
     <% else %>
-    <div class="navbar bg-primary shadow-sm">
-      <div class="container mx-auto px-5 flex">
+    <div class="navbar bg-primary px-4 shadow-sm sm:px-2">
+      <div class="container mx-auto flex px-0 sm:px-5">
         <div class="navbar-start">
-          <%= link_to root_path, class: "flex items-center gap-2 text-xl text-white" do %>
-            <%= image_tag "koedayori_icon.png", alt: "こえだよりのイメージマーク", class: "w-8 h-8" %>
-            <%= image_tag "koedayori_logo_white.png", alt: "タイトル「こえだより」", class: "w-32 mx-auto md:mx-0" %>
+          <%= link_to root_path do %>
+            <%= image_tag "koedayori_brand_white.webp", alt: "こえだより", class: "h-5 w-auto sm:h-8" %>
           <% end %>
         </div>
         <div class="navbar-end gap-4">
@@ -84,17 +86,19 @@
     </div>
     <% end %>
     <% end %>
-    <main class="container mx-auto px-5 flex flex-1 mt-8">
+    <main class="<%= content_for?(:hide_header) ? "flex w-full flex-1" : "container mx-auto mt-8 flex flex-1 px-5" %>">
       <%= yield %>
     </main>
   
-  <footer class="footer items-center mx-auto container mx-auto px-5 py-6 bg-base-200 text-base-content mt-auto rounded-t-2xl">
-  <div class="items-center grid-flow-col gap-4">
-    <p class="text-sm opacity-70">© 2026 こえだより</p>
-    <%= link_to "プライバシーポリシー", privacy_path, class: "text-sm opacity-70" %>
-    <%= link_to "利用規約", terms_path, class: "text-sm opacity-70" %>
-  </div>
-</footer>
+  <footer class="container mx-auto mt-auto rounded-t-2xl bg-base-200 px-5 py-6 text-base-content">
+    <div class="flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-center sm:gap-5">
+      <p class="text-sm opacity-70">© 2026 こえだより</p>
+      <nav class="flex flex-wrap justify-center gap-x-4 gap-y-2" aria-label="フッターナビゲーション">
+        <%= link_to "プライバシーポリシー", privacy_path, class: "text-sm opacity-70" %>
+        <%= link_to "利用規約", terms_path, class: "text-sm opacity-70" %>
+      </nav>
+    </div>
+  </footer>
 
   </body>
 </html>

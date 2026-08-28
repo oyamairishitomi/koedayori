@@ -7,6 +7,9 @@ class KoedayorisTest < ApplicationSystemTestCase
 
     visit speaker_path(speaker.slug)
 
-    assert_text "こえの録音"
+    assert_text "「こえ」を録音する"
+    assert_text "押すと録音が始まります"
+    assert_selector "button.recording-button[aria-label='こえの録音を始める'][aria-pressed='false']"
+    assert_no_selector ".navbar"
   end
 end

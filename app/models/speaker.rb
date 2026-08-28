@@ -19,16 +19,6 @@ class Speaker < ApplicationRecord
     end
   end
 
-  def today_post
-    posts.find { |post| post.created_at.to_date == Time.zone.today }
-  end
-
-  def status
-    return :inactive unless active
-    return :needs_attention if notifications_needed?
-    :waiting
-  end
-
   private
 
   def generate_slug

@@ -11,7 +11,7 @@ class WithdrawalsTest < ApplicationSystemTestCase
 
     click_button "ログイン"
 
-    assert_text "今日のこえ"
+    assert_text "今日の「こえ」"
 
     click_on "設定"
 
@@ -20,6 +20,7 @@ class WithdrawalsTest < ApplicationSystemTestCase
     page.execute_script("Turbo.setConfirmMethod(() => Promise.resolve(true))")
     click_on "退会する"
 
-    assert_text "大切な人の「こえ」で"
+    assert_text "毎日の「こえ」が、"
+    assert_text "家族の安心に。"
   end
 end

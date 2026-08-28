@@ -1,46 +1,36 @@
-<% content_for(:title, "#{@speaker.name}さんのこえ一覧｜こえだより") %>
-<div class="w-full max-w-2xl mx-auto">
-  <%= render "shared/page_title", text: "#{@speaker.name}さんのこえ一覧" %>
+<% content_for(:title, "#{@speaker.name}さんのこえ｜こえだより") %>
 
-<div class="posts-list flex flex-col gap-4">
-  <% @posts.order(created_at: :desc).each do |post| %>
-    <div class="posts-item card bg-white shadow-sm p-4 flex flex-col md:flex-row justify-between items-stretch md:items-center" data-controller="playback" data-playback-post-id-value="<%= post.id %>">
-      <div class="readstatus flex flex-col items-start gap-1 shrink-0 w-48">
-        <div class="text-sm"><%= post.created_at.strftime("%Y/%m/%d %H:%M") %></div>
-        <span class="text-m font-semibold"><%= post.theme&.title %></span>
-      </div>
+<div class="mx-auto w-full max-w-3xl">
+  <%= render "shared/page_title", text: "#{@speaker.name}さんのこえ" %>
 
-      <div class="player flex-1 min-w-0 mt-4 md:mt-0 md:ml-4">
-        <div class="flex items-center gap-2 w-full bg-base-200 px-4 py-2 rounded-full">
-          <button data-playback-target="playButton" data-action="click->playback#togglePlay" class="btn btn-circle btn-primary w-12 h-12 rounded-full flex items-center justify-center" aria-label="再生">
-            <%= icon("play", css_class: "w-5 h-5") %>
-          </button>
-          <div class="relative flex-1 h-3 bg-base-300 rounded-full">
-            <div data-playback-target="progressBar" class="absolute inset-y-0 left-0 h-full bg-primary rounded-full w-0 pointer-events-none">
-              <div class="w-4 h-4 rounded-full bg-primary border-2 border-white shadow absolute right-0 top-1/2 translate-x-1/2 -translate-y-1/2" data-playback-target="seekHandle"></div>
-            </div>
-            <input type="range" min=0 max=100 value=0 aria-label="再生位置" data-playback-target="seekInput" data-action="input->playback#seek" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-full">
+  <% if @posts.any? %>
+    <ul class="space-y-4">
+      <% @posts.each do |post| %>
+        <li class="card border border-base-300 bg-white p-4 shadow-sm sm:p-5">
+          <div class="mb-4">
+            <p class="font-bold"><%= post.theme&.title.presence || "テーマなし" %></p>
+            <time datetime="<%= post.created_at.iso8601 %>" class="mt-1 block text-sm text-base-content/60"><%= post.created_at.strftime("%Y年%-m月%-d日 %H:%M") %></time>
           </div>
-          <div class="flex items-center gap-1 text-xs text-base-content/70 shrink-0">
-            <span data-playback-target="currentTime">0:00</span>
-            <span>/</span>
-            <span data-playback-target="duration">0:00</span>
-          </div>
-          <%= audio_tag(post.audio, hidden: true, data: { playback_target: "audio", action: "timeupdate->playback#updateProgress ended->playback#resetButton loadedmetadata->playback#showDuration"}) %>
-        </div>
-      </div>
+
+          <%= render "families/posts/audio_player", post: post %>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="mt-6"><%= paginate @posts %></div>
+  <% else %>
+    <div class="rounded-xl border border-base-300 bg-white p-6 text-center">
+      <p class="mb-4">まだ今日の「こえ」が録音されていません。</p>
+      <%= link_to families_speaker_path(@speaker), class: "btn btn-outline btn-primary btn-sm h-auto w-full py-2 text-base leading-relaxed" do %>
+        <span>録音の準備方法を<br>開始する</span>
+      <% end %>
     </div>
   <% end %>
-  <% if @posts.first == nil %>
-  まだ今日のこえが録音されていません。
-  <%= link_to "#{@speaker.name}さんに、こえの録音をお願いする方法を確認しましょう。", families_speaker_path(@speaker), class: "underline" %>
-  <% end %>
-  <%= paginate @posts %>
 
-  <%= link_to families_speakers_path, class: "btn btn-ghost mt-4" do %>
-    <%= icon("chevron-right", css_class: "w-4 h-4 rotate-180") %>
-    今日のこえに戻る
+  <%= link_to families_speakers_path, class: "link link-primary mx-auto mt-8 flex w-fit items-center gap-1 font-bold" do %>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 19.5-7.5-7.5 7.5-7.5" />
+    </svg>
+    今日の「こえ」に戻る
   <% end %>
-</div>
-
 </div>

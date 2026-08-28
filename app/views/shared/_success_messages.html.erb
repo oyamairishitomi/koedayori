@@ -1,9 +1,9 @@
 <% if messages.present? %>
-    <div id="error_explanation">
-        <ul class="text-sm w-full text-success">
-            <% messages.each do |message| %>
-                <li>💡 <%= message %></li>
-            <% end %>
-        </ul>
-    </div>
+  <div id="success_explanation" class="fixed top-20 left-1/2 z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 rounded-xl border border-success/30 bg-[#e9f5ef] px-4 py-3 text-success shadow-lg transition duration-200 ease-out" role="status" data-controller="auto-dismiss" data-auto-dismiss-delay-value="5000">
+    <ul class="w-full space-y-1 text-sm">
+      <% messages.each do |message| %>
+        <li>💡 <%= message %></li>
+      <% end %>
+    </ul>
+  </div>
 <% end %>

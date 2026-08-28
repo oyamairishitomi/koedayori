@@ -1,48 +1,92 @@
-<% content_for(:title, "#{@speaker.name}さんのセットアップ｜こえだより") %>
-<div class="w-full">
-  <%= render "shared/page_title", text: "#{@speaker.name}さんが、毎日こえを録音できるように準備しましょう" %>
-      <div class="card bg-white rounded-2xl shadow-sm p-8 max-w-2xl mx-auto">
-        <h2 class="text-lg font-bold mb-3">こえの録音専用ページ</h2>
-        <p>このURLを「こえを届ける家族」に共有すると、「こえを届ける家族」はこの先のページから毎日のこえを録音して届けられます。</p>
-        <div class="mt-4 flex justify-center">
-            <%= speaker_qrcode %>
-        </div>
-        <div class="flex flex-col items-center gap-2 mt-4 max-w-xs mx-auto">
-            <%= link_to "LINEで送る", "https://line.me/R/msg/text/?#{ERB::Util.url_encode("こえだよりの録音ページはこちら\n#{speaker_share_url(@speaker)}")}", target: "_blank", rel: "noopener", class: "btn btn-outline btn-primary w-full" %>
-            <button type="button" data-controller="clipboard" data-clipboard-url-value="<%= speaker_share_url(@speaker) %>" data-action="click->clipboard#copy" class="btn btn-outline w-full">URLをコピー</button>
-        </div>
-        <div class="divider my-2"></div>
+<% content_for(:title, "#{@speaker.name}さんの録音準備｜こえだより") %>
+<div class="mx-auto w-full max-w-2xl">
+  <%= render "shared/page_title", text: "#{@speaker.name}さんの録音準備" %>
+  <p class="mb-6 leading-relaxed"><%= @speaker.name %>さんがスマートフォンで毎日の「こえ」を録音できるよう、準備を進めます。</p>
 
-        <ul class="steps steps-vertical">
-            <li class="step step-primary text-left">「こえを届ける家族」のスマートフォンで上のQRコードを読み取り、表示されたページを開いてください。</li>
-            <li class="step step-primary text-left">ページを開いたら、録音ボタンを押してこえを録音してください。</li>
-            <li class="step step-primary text-left">「こえを届ける家族」が初めて録音をする際、「マイクの使用を許可しますか？」と聞かれる場合があります。その際は「許可」を選んでください。</li>
-            <li class="step step-primary text-left">「こえを届ける家族」のスマートフォンで、録音ページを必ずホーム画面に追加してください。（下記手順）</li>
-        </ul>
-        <h2 class="text-xl font-bold mb-2 mt-6">ホーム画面への追加方法</h2>
-        <p class="text-sm text-base-content/70">QRコードで読み込んだ録音ページを、以下の手順でホーム画面に追加してください。毎日のこえを続けるために必要な設定です。</p>
-        <div class="tabs tabs-border mt-4">
-          <input type="radio" name="my_tabs" class="tab" aria-label="登録するご家族がiPhoneの場合(Safari)" checked="checked" />
-          <div class="tab-content border-base-300 bg-base-100 p-10">
-            <%# TODO: DR-019対応、iPhone用のホーム画面追加手順イラストをここに追加する(ChatGPTで生成予定) %>
-            <p>① Safariでこのページを開いた状態で、画面下の「共有」ボタン(四角に上矢印のマーク)をタップ</p>
-            <p>② 一覧を下にスクロールし、「ホーム画面に追加」をタップ</p>
-            <p>③ 右上の「追加」をタップ</p>
-            <p>④ 録音し、見守る家族に無事届くかご確認ください</p>
+  <ol class="space-y-4">
+    <li class="rounded-2xl border border-base-300 bg-white p-5 shadow-sm sm:p-8">
+      <div class="flex items-start gap-3">
+        <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary font-bold text-primary-content">1</span>
+        <h2 class="text-2xl font-bold">録音ページを開く</h2>
+      </div>
+      <p class="mt-5 leading-relaxed"><%= @speaker.name %>さんのスマートフォンで、下のQRコードを読み取って録音ページを開きます。</p>
+
+      <div class="mt-5 flex justify-center">
+        <%= speaker_qrcode %>
+      </div>
+      <p class="mt-5 font-bold leading-relaxed">QRコードを読み取れない場合は、LINEまたはURLで<%= @speaker.name %>さんへ録音ページを共有してください。</p>
+      <div class="mx-auto mt-4 grid w-full max-w-sm grid-cols-1 gap-2 sm:grid-cols-2">
+        <%= link_to "LINEで送る", "https://line.me/R/msg/text/?#{ERB::Util.url_encode("こえだよりの録音ページはこちら\n#{speaker_share_url(@speaker)}")}", target: "_blank", rel: "noopener", class: "btn btn-outline btn-primary w-full" %>
+        <button type="button" data-controller="clipboard" data-clipboard-url-value="<%= speaker_share_url(@speaker) %>" data-action="click->clipboard#copy" class="btn btn-outline btn-primary w-full">URLをコピー</button>
+      </div>
+    </li>
+
+    <li class="rounded-2xl border border-base-300 bg-white p-5 shadow-sm sm:p-8">
+      <div class="flex items-start gap-3">
+        <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary font-bold text-primary-content">2</span>
+        <h2 class="text-2xl font-bold">録音ページをホーム画面に追加</h2>
+      </div>
+      <p class="mt-5 leading-relaxed">毎日の録音で迷わないよう、録音ページをホーム画面に追加します。</p>
+      <section class="mt-6 overflow-hidden rounded-xl border border-base-300 bg-[#f8f9f7]" aria-labelledby="home-screen-instructions-title">
+        <h3 id="home-screen-instructions-title" class="border-b border-base-300 bg-base-200 px-4 py-3 text-lg font-bold sm:px-6">ホーム画面への追加方法</h3>
+        <div class="p-4 sm:p-6">
+          <p class="leading-relaxed"><%= @speaker.name %>さんのスマートフォンに合わせて、iPhoneまたはAndroidを選んでください。</p>
+
+          <div class="mt-5 space-y-6 sm:hidden">
+            <section aria-labelledby="iphone-instructions-title">
+              <h4 id="iphone-instructions-title" class="mb-3 font-bold text-primary">iPhoneの場合（Safari）</h4>
+              <%= render "iphone_home_screen_steps" %>
+            </section>
+            <section class="border-t border-base-300 pt-6" aria-labelledby="android-instructions-title">
+              <h4 id="android-instructions-title" class="mb-3 font-bold text-primary">Androidの場合（Chrome）</h4>
+              <%= render "android_home_screen_steps" %>
+            </section>
           </div>
 
-          <input type="radio" name="my_tabs" class="tab" aria-label="登録するご家族がAndroidの場合(Chrome)" />
-          <div class="tab-content border-base-300 bg-base-100 p-10">
-            <%# TODO: DR-019対応、Android用のホーム画面追加手順イラストをここに追加する(ChatGPTで生成予定) %>
-            <p>① Chromeでこのページを開いた状態で、右上の「︙」(縦の三点リーダー)をタップ</p>
-            <p>② 「ホーム画面に追加」をタップ</p>
-            <p>③ 表示されたアイコン名を確認し、「追加」をタップ</p>
-            <p>④ 録音し、見守る家族に無事届くかご確認ください</p>
+          <div class="tabs mt-4 hidden gap-2 [--tab-height:2.25rem] sm:flex">
+            <input type="radio" name="home_screen_tabs" class="tab flex-1 rounded-full border border-primary bg-white px-5 text-primary transition checked:bg-primary checked:text-primary-content" aria-label="iPhoneの場合(Safari)" checked="checked" />
+            <div class="tab-content pt-5">
+              <%= render "iphone_home_screen_steps" %>
+            </div>
+
+            <input type="radio" name="home_screen_tabs" class="tab flex-1 rounded-full border border-primary bg-white px-5 text-primary transition checked:bg-primary checked:text-primary-content" aria-label="Androidの場合(Chrome)" />
+            <div class="tab-content pt-5">
+              <%= render "android_home_screen_steps" %>
+            </div>
           </div>
         </div>
-        <%= link_to families_speakers_path, class: "btn btn-ghost mt-4" do %>
-          <%= icon("chevron-right", css_class: "w-4 h-4 rotate-180") %>
-          今日のこえに戻る
-        <% end %>
-          </div>
+      </section>
+    </li>
+
+    <li class="rounded-2xl border border-base-300 bg-white p-5 shadow-sm sm:p-8">
+      <div class="flex items-start gap-3">
+        <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary font-bold text-primary-content">3</span>
+        <h2 class="text-2xl font-bold">マイクの使用を許可</h2>
+      </div>
+      <p class="mt-5 leading-relaxed">録音ページで「ここを押して こえを録音する」を押します。確認画面が表示されたら、マイクの使用を許可してください。</p>
+    </li>
+
+    <li class="rounded-2xl border border-base-300 bg-white p-5 shadow-sm sm:p-8">
+      <div class="flex items-start gap-3">
+        <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary font-bold text-primary-content">4</span>
+        <h2 class="text-2xl font-bold">「こえ」を録音</h2>
+      </div>
+      <p class="mt-5 leading-relaxed"><%= @speaker.name %>さんのスマートフォンで、ホーム画面に追加した「こえだより」を開き、画面の案内に沿って「こえ」を録音します。</p>
+    </li>
+
+    <li class="rounded-2xl border border-base-300 bg-white p-5 shadow-sm sm:p-8">
+      <div class="flex items-start gap-3">
+        <span class="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary font-bold text-primary-content">5</span>
+        <h2 class="text-2xl font-bold">「こえ」が届いていることを確認</h2>
+      </div>
+      <p class="mt-5 leading-relaxed"><%= link_to "今日の「こえ」ページ", families_speakers_path, class: "link link-primary font-bold" %>を開き、録音した「こえ」が届いていることを確認します。</p>
+    </li>
+  </ol>
+
+  <%= link_to families_speakers_path, class: "link link-primary mx-auto mt-6 flex w-fit items-center gap-1 font-bold" do %>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 19.5-7.5-7.5 7.5-7.5" />
+    </svg>
+    今日の「こえ」に戻る
+  <% end %>
 </div>

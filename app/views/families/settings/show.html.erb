@@ -1,66 +1,86 @@
-<% content_for(:title, "こえだよりの設定｜こえだより") %>
-<div class="w-full max-w-2xl mx-auto">
+<% content_for(:title, "設定｜こえだより") %>
+
+<div class="mx-auto w-full max-w-2xl">
   <%= render "shared/success_messages", messages: [flash[:notice]].compact %>
-    <%= render "shared/page_title", text: "こえだよりの設定" %>
-    <%= form_with url: families_settings_path, method: :patch do |form| %>
+  <%= render "shared/page_title", text: "設定" %>
+
+  <%= form_with url: families_settings_path, method: :patch, class: "space-y-6" do |form| %>
     <% speaker = current_family.speakers.first %>
 
-<fieldset class="fieldset bg-base-100 border border-base-300 rounded-box p-4">
-  <legend class="fieldset-legend">こえが届いていないときのお知らせ</legend>
-  <ul class="list bg-base-100 rounded-box">
-    <li class="list-row items-center">
-      <div class="min-w-0">こえが何時までに届かなければ画面上で知らせるか</div>
-      <div class="justify-self-end"><%= form.select :notify_at, (0..23).map { |h| format("%02d:00", h) } ,{selected: speaker&.notify_at&.strftime("%H:%M") }, {class: "select sm:ml-auto w-24"} %></div>
-    </li>
-  </ul>
-</fieldset>
+    <fieldset class="min-w-0 overflow-hidden rounded-xl border border-base-300 bg-base-100">
+      <legend class="sr-only">「こえ」が届いていないときのお知らせ</legend>
+      <div class="border-b border-base-300 bg-base-200/50 px-5 py-4">
+        <h2 class="text-lg font-bold">「こえ」が届いていないときのお知らせ</h2>
+      </div>
+      <div class="p-5">
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <%= form.label :notify_at, "今日の「こえ」が届いていないことを知らせる時刻", class: "font-bold text-base-content" %>
+            <p class="mt-1 text-sm text-base-content/70">この時刻を過ぎても録音がない場合、今日の「こえ」に表示します。</p>
+          </div>
+          <%= form.select :notify_at, (0..23).map { |h| format("%02d:00", h) }, { selected: speaker&.notify_at&.strftime("%H:%M") }, { class: "select w-28 shrink-0" } %>
+        </div>
+      </div>
+    </fieldset>
 
-<fieldset class="fieldset bg-base-100 border border-base-300 rounded-box p-4">
-  <legend class="fieldset-legend">こえを届ける家族</legend>
-    <ul class="list bg-base-100 rounded-box">
-      <% current_family.speakers.order(active: :desc).each do |speaker| %>
-      <li class="list-row items-center">
-        <div><%= speaker.name %></div>
-        <div class="justify-self-end"><%= link_to "こえの録音の準備", families_speaker_path(speaker), class: "btn btn-outline btn-sm" %></div>
-      </li>
+    <fieldset class="min-w-0 overflow-hidden rounded-xl border border-base-300 bg-base-100">
+      <legend class="sr-only">「こえ」を届ける家族</legend>
+      <div class="border-b border-base-300 bg-base-200/50 px-5 py-4">
+        <h2 class="text-lg font-bold">「こえ」を届ける家族</h2>
+      </div>
+      <div class="p-5">
+        <ul class="divide-y divide-base-300">
+          <% current_family.speakers.each do |registered_speaker| %>
+            <li class="flex flex-col gap-3 py-4 first:pt-1 last:pb-1 sm:flex-row sm:items-center sm:justify-between">
+              <span class="font-bold"><%= registered_speaker.name %></span>
+              <%= link_to "録音の準備方法を確認", families_speaker_path(registered_speaker), class: "btn btn-outline btn-sm" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </fieldset>
+
+    <fieldset class="min-w-0 overflow-hidden rounded-xl border border-base-300 bg-base-100">
+      <legend class="sr-only">見守る家族のログイン情報</legend>
+      <div class="border-b border-base-300 bg-base-200/50 px-5 py-4">
+        <h2 class="text-lg font-bold">見守る家族のログイン情報</h2>
+      </div>
+      <div class="p-5">
+        <div class="space-y-5">
+          <div>
+            <%= form.label :aikotoba, "「あいことば」の変更", class: "label mb-2 font-bold text-base-content" %>
+            <%= form.text_field :aikotoba, value: current_family.aikotoba, class: "input w-full" %>
+          </div>
+          <div>
+            <%= form.label :email, "メールアドレスの変更", class: "label mb-2 font-bold text-base-content" %>
+            <%= form.email_field :email, value: current_family.email, class: "input w-full" %>
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <%= form.submit "設定を更新する", class: "btn btn-primary min-h-12" %>
+  <% end %>
+
+  <section class="mt-10 rounded-xl border border-error/30 bg-error/5 p-5" aria-labelledby="danger-zone-title">
+    <h2 id="danger-zone-title" class="mb-4 text-lg font-bold text-error">利用の停止・退会</h2>
+    <ul class="divide-y divide-error/20">
+      <% current_family.speakers.each do |registered_speaker| %>
+        <li class="flex flex-col gap-3 py-4 first:pt-0 sm:flex-row sm:items-center sm:justify-between">
+          <span><%= registered_speaker.name %>さんのこえの受け取り</span>
+          <%= link_to "受け取りを停止する", deactivate_families_speaker_path(registered_speaker), class: "btn btn-outline btn-error btn-sm", data: { turbo_method: :patch, turbo_confirm: "#{registered_speaker.name}さんのこえの受け取りを停止します。停止後は再開できません。よろしいですか？" } %>
+        </li>
       <% end %>
     </ul>
-</fieldset>
+    <div class="mt-4 border-t border-error/20 pt-4">
+      <%= link_to "退会する", new_families_withdrawal_path, class: "btn btn-outline btn-error btn-sm" %>
+    </div>
+  </section>
 
-<fieldset class="fieldset bg-base-100 border border-base-300 rounded-box p-4">
-  <legend class="fieldset-legend">見守る家族</legend>
-  <ul class="list bg-base-100 rounded-box">
-    <li class="list-row items-center">
-      <div>あいことばの変更</div>
-      <div class="justify-self-end"><%= form.text_field :aikotoba, class: "input" %></div>
-    </li>
-    <li class="list-row items-center">
-      <div>メールアドレスの変更</div>
-      <div class="justify-self-end"><%= form.text_field :email, class: "input" %></div>
-    </li>
-  </ul>
-</fieldset>
-
-  <%= form.submit "設定を更新する", class: "btn btn-primary mt-4" %>
-  <div class="divider"></div>
-
-<fieldset class="fieldset bg-base-200 border border-base-300 rounded-box p-4">
-  <legend class="fieldset-legend">停止設定</legend>
-  <ul class="list bg-base-200 rounded-box" >
-    <% current_family.speakers.order(active: :desc).each do |speaker| %>
-    <li class="list-row items-center">
-      <div><%= speaker.name %></div>
-      <div class="justify-self-end"><%= link_to "受け取りを停止する", deactivate_families_speaker_path(speaker), class: "btn btn-outline btn-error btn-sm", data: { turbo_method: :patch, turbo_confirm: "本当に停止してよろしいですか？二度と戻せません。" }  %></div>
-    </li>
-    <% end %>
-  </ul>
-</fieldset>
-
-  <% end %>
-  <div class="divider"></div>
-  <%= link_to "退会する", new_families_withdrawal_path, class: "btn btn-outline btn-error btn-sm" %>
-  <%= link_to families_speakers_path, class: "btn btn-ghost mt-4" do %>
-    <%= icon("chevron-right", css_class: "w-4 h-4 rotate-180") %>
-    今日のこえに戻る
+  <%= link_to families_speakers_path, class: "link link-primary mx-auto mt-8 flex w-fit items-center gap-1 font-bold" do %>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 19.5-7.5-7.5 7.5-7.5" />
+    </svg>
+    今日の「こえ」に戻る
   <% end %>
 </div>

@@ -1,14 +1,25 @@
 <% content_for(:title, "見守りたい家族を追加｜こえだより") %>
-<div class="w-full flex flex-col items-center">
+<div class="mx-auto flex w-full max-w-lg flex-col items-center">
   <%= render "shared/page_title", text: "見守りたい家族を追加" %>
   <%= render "shared/error_messages", messages: @speaker.errors.full_messages %>
 
-    <div class="card bg-white rounded-2xl shadow-sm p-8">
+    <div class="card w-full rounded-2xl border border-base-300 bg-white p-8 shadow-sm">
         <%= form_with model: @speaker, url: families_speakers_path do |form| %>
-                <%= form.label :name %>
-                <%= form.text_field :name, class: "input mb-4 w-full"%>
-            <%= form.submit "登録する", class: "btn btn-primary w-full" %>
+            <%= form.label :name, "見守りたい家族の名前", class: "label mb-2 text-base font-bold text-base-content" %>
+            <p class="mb-2 text-sm leading-relaxed text-base-content/70">
+              毎日の「こえ」を届けてもらう家族の名前かニックネームを入力してください。（例）山田花子、北海道のおじいちゃん
+            </p>
+            <%= form.text_field :name, class: "input mb-6 w-full" %>
+            <div class="mx-auto flex w-full max-w-sm gap-3">
+              <%= link_to "キャンセル", families_speakers_path, class: "btn btn-outline btn-lg flex-1" %>
+              <%= form.submit "登録する", class: "btn btn-primary btn-lg flex-1" %>
+            </div>
         <% end %>
-        <%= link_to "今日のこえに戻る", families_speakers_path, class: "btn btn-ghost w-full mt-4" %>
     </div>
+    <%= link_to families_speakers_path, class: "link link-primary mx-auto mt-4 flex w-fit items-center gap-1 font-bold" do %>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="size-4" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 19.5-7.5-7.5 7.5-7.5" />
+      </svg>
+      今日の「こえ」に戻る
+    <% end %>
 </div>

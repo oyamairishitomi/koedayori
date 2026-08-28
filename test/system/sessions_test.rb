@@ -11,6 +11,8 @@ class SessionsTest < ApplicationSystemTestCase
 
     click_button "ログイン"
 
-    assert_text "今日のこえ"
+    assert_text "今日の「こえ」"
+    assert_selector "#success_explanation[data-controller='auto-dismiss'][data-auto-dismiss-delay-value='5000']", text: "ログインしました。"
+    assert_no_selector "#success_explanation", wait: 6
   end
 end

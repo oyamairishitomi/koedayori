@@ -1,91 +1,98 @@
-<% content_for(:title, "今日のこえ｜こえだより") %>
-<div class="w-full">
-  <%= render "shared/success_messages", messages: [flash[:notice]].compact , class: "mb-4" %>
-  <%= render "shared/page_title", text: "今日のこえ" %>
-  <div class="flex items-center gap-2 text-sm text-base-content/60 mb-2">
-    <%= link_to families_speakers_path, class: "btn btn-ghost btn-sm gap-1" do %>
-      <%= icon("arrow-path", css_class: "w-4 h-4") %>
-      最新の状態に更新
-    <% end %>
-    <span>最終更新 <%= Time.zone.now.strftime("%H:%M") %></span>
-  </div>
-  <div class="divider"></div>
-  <% unless current_family.speakers.empty? %>
+<% content_for(:title, "今日の「こえ」｜こえだより") %>
 
-  <details class="collapse collapse-arrow bg-base-100 border border-base-300 mt-4 mb-4" open data-controller="dismissible" data-dismissible-target="details">
-    <summary class="collapse-title">はじめに、２つの役割を知ってください。</summary>
-    <div class="collapse-content">
-      <div class="flex flex-col items-center gap-2 py-2 text-center">
-        <div class="flex flex-col items-center gap-1">
-          <h2 class="text-lg font-bold mb-3">こえだより の しくみ</h2>
-          <div class="bg-primary/10 rounded-full p-3 mb-2">
-            <%= icon("user", css_class: "w-8 h-8 text-primary") %>
-          </div>
-          <span class="badge badge-primary badge-lg my-2">こえを届ける家族</span>
-          <p class="text-xs text-base-content/70">例）おじいちゃん・おばあちゃん</p>
-        </div>
+<div class="mx-auto w-full max-w-3xl">
+  <%= render "shared/success_messages", messages: [flash[:notice]].compact, class: "mb-4" %>
 
-        <%= icon("arrow-down", css_class: "w-5 h-5 text-base-content/50") %>
-        <p class="text-sm font-medium">毎日、専用ページからこえを録音する</p>
-
-        <div class="bg-primary rounded-full px-4 py-2">
-          <%= image_tag "koedayori_logo_white.png", alt: "こえだより", class: "h-6" %>
-        </div>
-
-        <%= icon("arrow-down", css_class: "w-5 h-5 text-base-content/50") %>
-        <p class="text-sm font-medium">こえが届く</p>
-
-        <div class="flex flex-col items-center gap-1">
-          <div class="bg-warning/10 rounded-full p-3 mb-2">
-            <%= icon("speaker-wave", css_class: "w-8 h-8 text-warning") %>
-          </div>
-          <span class="badge badge-warning badge-lg my-2">見守る家族</span>
-          <p class="text-xs text-base-content/70">例）お子さん・お孫さん</p>
-
-          <div role="alert" class="alert alert-info mt-4">
-            <%= icon("information-circle", css_class: "h-6 w-6 shrink-0 stroke-current") %>
-            <span>家族の誰かが声を聞くと、「安否確認」ができたことになります</span>
-          </div>
-        </div>
-        <button data-dismissible-target="button" data-action="click->dismissible#click" class="btn btn-soft mt-4 mb-4" >今後表示しない</button>
-      </div>
+  <div class="mb-6 flex flex-wrap items-start justify-between gap-4">
+    <%= render "shared/page_title", text: "今日の「こえ」", margin: "mb-0" %>
+    <div class="flex flex-col items-end">
+      <%= link_to families_speakers_path, class: "link link-primary inline-flex items-center gap-1 font-bold", data: { turbo: false } do %>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" class="size-4" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992V4.356m-1.291 5.001a8.25 8.25 0 1 0 .205 4.085" />
+        </svg>
+        更新する（<%= Time.current.strftime("%H:%M") %>）
+      <% end %>
     </div>
-  </details>
-  <% end %>
+  </div>
 
-  <% if current_family.speakers.empty? %>
-  <div class="mb-4">まずは以下のボタンより、見守りたい家族を登録してください。</div>
-  <%= link_to "＋　見守りたい家族を追加する", new_families_speaker_path, class: "btn btn-primary text-lg mb-6" %>
-  <% end %>
-  <ul class="flex flex-col md:flex-row gap-4 flex-wrap items-stretch">
-    <% @speakers.each do |speaker| %>
-    <% latest_post = speaker.posts.max_by(&:created_at) %>
-      <% needs_attention = speaker.status == :needs_attention && speaker.notifications_enabled %>
-      <% border_color = needs_attention ? "border-error" : "border-base-300" %>
+  <% if @speakers.empty? %>
+    <div class="rounded-xl border border-base-300 bg-base-100 p-6 text-center">
+      <%= image_tag "empty-family-portraits.webp", alt: "見守りたい家族を表す5人のイラスト", class: "mx-auto mb-4 w-full max-w-sm" %>
+      <p class="mb-4">見守りたい家族を追加しましょう。<br>届いた「こえ」をここで確認できます。</p>
+      <%= link_to "＋ 見守りたい家族を追加", new_families_speaker_path, class: "btn btn-primary btn-lg" %>
+    </div>
+  <% else %>
+    <ul class="grid grid-cols-1 gap-4">
+      <% @speakers.each do |speaker| %>
+        <% latest_post = speaker.posts.max_by(&:created_at) %>
+        <li class="card overflow-hidden border border-base-300 bg-base-100 shadow-sm transition-shadow hover:shadow-md <%= "opacity-60" unless speaker.active? %>">
+          <% if latest_post && speaker.notifications_needed? %>
+            <div class="bg-error px-5 py-2.5 text-center text-sm font-bold text-error-content">今日の「こえ」がまだ届いていません。</div>
+          <% elsif latest_post.nil? %>
+            <div class="bg-warning px-5 py-2.5 text-center text-sm font-bold text-warning-content">まだ「こえ」は登録されていません。</div>
+          <% end %>
 
-      <li class="card bg-base-100 border <%= border_color %> shadow-sm w-full md:w-80 transition hover:shadow-lg hover:scale-105 <%= "opacity-50" unless speaker.active? %>">
-        <%= link_to families_speaker_posts_path(speaker), class: "card-body" do %>
-          <h2 class="card-title"><%= speaker.name %></h2>
+          <div class="card-body gap-4">
+            <h2 class="card-title w-full flex-col items-start gap-x-4 gap-y-1 text-xl sm:flex-row sm:items-center sm:justify-between">
+              <%= link_to speaker.name, families_speaker_posts_path(speaker), class: "text-base-content no-underline underline-offset-4 hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" %>
+              <% if latest_post %>
+                <span class="text-sm font-normal <%= last_post_elapsed_warning?(latest_post) ? "text-error" : "text-base-content/50" %>"><%= last_post_elapsed_label(latest_post) %></span>
+              <% end %>
+            </h2>
 
             <% if latest_post %>
-              <p class="flex items-center gap-1 text-xs text-base-content/60">
-                <%= icon("clock", css_class: "w-3 h-3") %>
-                <%= latest_post.created_at.strftime("%-m月%-d日 %H:%M") %>に<% if latest_post.theme %>「<%= latest_post.theme.title %>」の<% end %>こえが届きました(最後の録音から<%= time_ago_in_words(latest_post.created_at) %>)
-              </p>
-            <% else %>
-              <p class="text-xs text-base-content/60">まだ録音がありません</p>
-            <% end %>
+              <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_16rem] md:items-start md:gap-6">
+                <div class="space-y-3">
+                  <p class="leading-relaxed">
+                    <%= latest_post.created_at.to_date == Time.zone.today ? "今日 #{latest_post.created_at.strftime("%H:%M")}" : latest_post.created_at.strftime("%Y年%-m月%-d日 %H:%M") %> に
+                    <% if latest_post.theme&.title.present? %>
+                      「<%= latest_post.theme.title %>」の
+                    <% end %>
+                    「こえ」が届きました。
+                  </p>
 
-            <% if needs_attention %>
-              <div role="alert" class="alert alert-error alert-soft">
-                <span><%= speaker.name %>さんからのこえは、今日はまだ届いていません</span>
+                  <% if latest_post.audio.attached? %>
+                    <%= render "families/posts/audio_player", post: latest_post %>
+                  <% end %>
+
+                  <% unless speaker.active? %>
+                    <p class="text-sm font-bold">受け取り停止中</p>
+                  <% end %>
+                </div>
+
+                <div class="space-y-3">
+                  <%= link_to families_speaker_posts_path(speaker), class: "btn btn-outline btn-primary btn-sm h-auto w-full py-2 text-base leading-relaxed" do %>
+                    <span><%= speaker.name %>さんの<br>「こえ」の一覧へ</span>
+                  <% end %>
+                </div>
               </div>
+            <% else %>
+              <div class="grid gap-4 rounded-lg border border-warning/40 bg-warning/15 px-4 py-4 text-base-content md:grid-cols-[minmax(0,1fr)_16rem] md:items-center md:gap-6">
+                <div class="flex items-center gap-4">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-10 shrink-0 text-warning" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.3 3.5 2.4 17.2A2 2 0 0 0 4.1 20h15.8a2 2 0 0 0 1.7-2.8L13.7 3.5a2 2 0 0 0-3.4 0Z" />
+                    <path stroke-linecap="round" d="M12 8v5" />
+                    <path stroke-linecap="round" d="M12 16.5h.01" />
+                  </svg>
+                  <p class="leading-relaxed"><%= speaker.name %>さんのスマートフォンで録音の準備を始めましょう。</p>
+                </div>
+
+                <%= link_to families_speaker_path(speaker), class: "btn btn-outline btn-warning btn-sm h-auto w-full py-2 text-base leading-relaxed" do %>
+                  <span>録音の準備方法を<br>開始する</span>
+                <% end %>
+              </div>
+
+              <% unless speaker.active? %>
+                <p class="text-sm font-bold">受け取り停止中</p>
+              <% end %>
             <% end %>
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-  <% unless current_family.speakers.empty? %>
-  <%= link_to "＋　見守りたい家族を追加する", new_families_speaker_path, class: "btn btn-primary text-lg mt-6" %>
+          </div>
+        </li>
+      <% end %>
+    </ul>
+
+    <div class="mt-8 border-t border-base-300 pt-6 text-center">
+      <%= link_to "＋ 見守りたい家族を追加", new_families_speaker_path, class: "btn btn-outline btn-primary" %>
+    </div>
   <% end %>
 </div>

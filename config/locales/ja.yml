@@ -32,8 +32,8 @@ ja:
     attributes:
       speaker:
         name: "名前"
-        notifications_enabled: "画面通知"
-        notify_at: "通知時刻"
+        notifications_enabled: "画面上のお知らせ"
+        notify_at: "今日の「こえ」が届いていないことを知らせる時刻"
       family:
         email: "メールアドレス"
         aikotoba: "あいことば"
@@ -47,4 +47,3 @@ ja:
       next: "次 &rsaquo;"
       previous: "&lsaquo; 前"
       truncate: "&hellip;"
-  

@@ -8,7 +8,7 @@ class RegistrationsTest < ApplicationSystemTestCase
     fill_in "あいことば", with: "tarofamily"
     fill_in "パスワード", with: "testtest"
 
-    click_on "新規登録"
+    click_on "登録する"
 
     assert_text "ログイン"
   end
