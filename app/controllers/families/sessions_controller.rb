@@ -10,7 +10,7 @@ class Families::SessionsController < Families::ApplicationController
 
     if family&.authenticate(params[:family][:password])
       session[:family_id] = family.id
-      redirect_to families_speakers_path
+      redirect_to families_speakers_path, notice: "ログインしました。"
     else
       flash.now[:alert] = "ログインに失敗しました"
       render :new, status: :unprocessable_entity

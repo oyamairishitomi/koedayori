@@ -1,91 +1,93 @@
-<% content_for(:hide_header, true) %>
-<div class="flex flex-col w-full">
-  <div class="flex justify-center">
-    <%= image_tag "koedayori_logo.png", alt: "こえだよりのロゴ", class: "w-72" %>
+<% content_for :hide_header, true %>
+<div class="flex w-full flex-col">
+  <div class="w-full px-5 pt-8 md:pt-10">
+    <%= image_tag "koedayori_brand_green.webp", alt: "こえだより", class: "mx-auto w-56 md:w-72" %>
   </div>
-  <div class="flex flex-col md:flex-row items-center gap-8 py-6 justify-center">
-    <div class="flex-none">
-      <%= image_tag "koedayori_mv.png", alt: "こえだよりのイメージ画像", class: "max-w-sm rounded-2xl mx-auto" %>
-    </div>
-    <div class="flex-none text-center md:text-left">
-      <h2 class="text-4xl font-bold mb-4 text-primary">大切な人の「こえ」で<br>まいにちの安心を</h2>
-      <p class="text-base mb-4">こえだよりは、「こえ」を録音するだけで<br>大切な人の「元気」を届ける見守りサービスです。</p>
-      <%= link_to "無料で登録する", new_families_registration_path, class: "btn btn-primary mb-4 btn-lg" %>
-      <%= link_to "会員登録済みの方（ログイン）", new_families_session_path, class: "btn btn-primary-content mb-4 btn-lg" %>
-    </div>
-  </div>
-  <div class="w-screen relative left-1/2 -translate-x-1/2">
-    <h1 class="text-xl font-bold mt-8 mb-4 text-center text-base-content/60">こえだよりはこんなサービスです</h1>
-    <div class="flex flex-col md:flex-row items-center justify-center gap-8 pb-8 px-5">
-      <div class="text-center max-w-xs">
-        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-          <%= icon("mic", css_class: "text-primary w-8 h-8") %>
-        </div>
-        <h3 class="text-2xl font-bold mb-4">1日1回、「こえ」を録音するだけ</h3>
-        <p class="text-sm">こえを届ける家族はお題にそって「こえ」を録音するだけ。文字入力は不要です。</p>
-      </div>
-      <div class="text-center max-w-xs">
-        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-          <%= icon("envelope", css_class: "text-primary w-8 h-8") %>
-        </div>
-        <h3 class="text-2xl font-bold mb-4">たいせつな「こえ」を聞き返せる</h3>
-        <p class="text-sm">録音した「こえ」は保存され、家族のたからものとして何度も聞き返せます。</p>
-      </div>
-      <div class="text-center max-w-xs">
-        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-          <%= icon("heart", css_class: "text-primary w-8 h-8") %>
-        </div>
-        <h3 class="text-2xl font-bold mb-4">あんしんの見守り</h3>
-        <p class="text-sm">未着や変化があればお知らせ。離れていても、しっかり見守れます。</p>
+
+  <div class="mx-auto flex w-full max-w-5xl flex-col items-center gap-8 px-5 py-8 md:gap-10 md:py-12">
+    <%= image_tag "koedayori_mv.webp", alt: "", class: "w-[440px] max-w-[60vw] rounded-2xl" %>
+
+    <div class="text-center">
+      <h1 class="mb-6 text-4xl font-bold leading-tight tracking-tight text-primary md:text-5xl">毎日の「こえ」が、<br class="md:hidden">家族の安心に。</h1>
+      <p class="mx-auto mb-8 max-w-3xl leading-relaxed text-base md:text-lg">離れて暮らす家族のこえが届く、<br class="md:hidden">シンプルな見守りサービスです。</p>
+      <div class="flex flex-col items-center gap-4">
+        <%= link_to "無料で始める", new_families_registration_path, class: "btn btn-primary btn-lg min-h-14 w-64 text-lg" %>
+        <p class="text-base text-base-content/70">登録済みの方は <%= link_to "ログイン", new_families_session_path, class: "link link-primary font-bold" %></p>
       </div>
     </div>
   </div>
-
-  <div class="w-screen relative left-1/2 -translate-x-1/2 bg-base-300 py-8">
-    <h1 class="text-xl font-bold mb-8 text-center text-base-content/60">ご利用はかんたん3ステップ</h1>
-    <div class="flex flex-col md:flex-row items-center justify-center gap-4 px-5">
-      <div class="text-center max-w-xs">
-        <div class="flex items-center justify-center gap-2 mb-2">
-          <span class="badge badge-primary badge-sm">1</span>
-          <h3 class="text-2xl font-bold">アカウントを作成</h3>
+  <section class="w-full">
+    <h2 class="mt-12 mb-10 text-center text-3xl font-bold tracking-tight md:text-4xl">「こえだより」でできること</h2>
+    <div class="mx-auto grid w-full max-w-5xl grid-cols-1 items-stretch gap-6 px-5 pb-10 md:grid-cols-3">
+      <div class="flex flex-col overflow-hidden rounded-2xl border border-base-300 bg-base-100 text-center shadow-sm">
+        <%= image_tag "feature-wellbeing.webp", alt: "元気な様子をこえで知らせる家族", class: "aspect-[4/3] w-full object-cover" %>
+        <div class="p-6">
+          <h3 class="mb-3 text-xl font-bold md:text-2xl">「こえ」を録音</h3>
+          <p class="text-base leading-relaxed">今日の出来事や気分を話して、<br>元気な様子を家族へ伝えます。</p>
         </div>
-        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
-          <%= icon("chat-bubble", css_class: "text-primary w-8 h-8") %>
-        </div>
-        <p class="text-sm">メールアドレスを入力して、アカウントを作成します。</p>
       </div>
-
-      <%= icon("chevron-right", css_class: "hidden md:block text-primary w-8 h-8 shrink-0") %>
-
-      <div class="text-center max-w-xs">
-        <div class="flex items-center justify-center gap-2 mb-2">
-          <span class="badge badge-primary badge-sm">2</span>
-          <h3 class="text-2xl font-bold">見守りたい家族を追加</h3>
+      <div class="flex flex-col overflow-hidden rounded-2xl border border-base-300 bg-base-100 text-center shadow-sm">
+        <%= image_tag "feature-delivery.webp", alt: "離れて暮らす家族へこえが届く様子", class: "aspect-[4/3] w-full object-cover" %>
+        <div class="p-6">
+          <h3 class="mb-3 text-xl font-bold md:text-2xl">家族に届く</h3>
+          <p class="text-base leading-relaxed">録音した「こえ」が、<br>離れて暮らす家族へ届きます。</p>
         </div>
-        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
-          <%= icon("user-plus", css_class: "text-primary w-8 h-8") %>
-        </div>
-        <p class="text-sm">見守りたい家族(こえを届ける家族)を登録します。</p>
       </div>
-
-      <%= icon("chevron-right", css_class: "hidden md:block text-primary w-8 h-8 shrink-0") %>
-
-      <div class="text-center max-w-xs">
-        <div class="flex items-center justify-center gap-2 mb-2">
-          <span class="badge badge-primary badge-sm">3</span>
-          <h3 class="text-2xl font-bold">「こえ」の録音を開始</h3>
+      <div class="flex flex-col overflow-hidden rounded-2xl border border-base-300 bg-base-100 text-center shadow-sm">
+        <%= image_tag "feature-listening.webp", alt: "届いた家族のこえを聞く様子", class: "aspect-[4/3] w-full object-cover" %>
+        <div class="p-6">
+          <h3 class="mb-3 text-xl font-bold md:text-2xl">いつでも聞ける</h3>
+          <p class="text-base leading-relaxed">届いた「こえ」を残して、<br>あとから何度でも聞き返せます。</p>
         </div>
-        <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2">
-          <%= icon("mic", css_class: "text-primary w-8 h-8") %>
-        </div>
-        <p class="text-sm">お題にそって「こえ」を録音するだけ。「あいことば」を知っていれば、見守る家族のどなたでもこえを聞くことができます。</p>
       </div>
     </div>
-  </div>
+  </section>
+
+  <section class="w-full bg-base-300 py-12">
+    <h2 class="mb-10 text-center text-3xl font-bold tracking-tight md:text-4xl">始め方は3ステップ</h2>
+    <div class="mx-auto grid w-full max-w-5xl grid-cols-1 items-stretch gap-8 px-5 pt-5 md:grid-cols-3">
+      <div class="relative flex h-full flex-col items-center rounded-2xl bg-base-100 px-6 pb-7 pt-10 text-center shadow-sm ring-1 ring-base-content/10">
+        <span class="absolute -top-5 flex size-10 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-content">1</span>
+        <span class="absolute top-1/2 -right-7 z-10 hidden -translate-y-1/2 text-primary md:block" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+            <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd"/>
+          </svg>
+        </span>
+        <div class="mb-5 size-24 overflow-hidden rounded-full bg-primary/10">
+          <%= image_tag "step-account.webp", alt: "若い女性", class: "size-full object-cover" %>
+        </div>
+        <h3 class="mb-3 text-xl font-bold">アカウントを作成</h3>
+        <p class="text-base leading-relaxed">メールアドレスを入力して、<br>アカウントを作成します。</p>
+      </div>
+
+      <div class="relative flex h-full flex-col items-center rounded-2xl bg-base-100 px-6 pb-7 pt-10 text-center shadow-sm ring-1 ring-base-content/10">
+        <span class="absolute -top-5 flex size-10 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-content">2</span>
+        <span class="absolute top-1/2 -right-7 z-10 hidden -translate-y-1/2 text-primary md:block" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
+            <path fill-rule="evenodd" d="M16.28 11.47a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 0 1-1.06-1.06L14.69 12 7.72 5.03a.75.75 0 0 1 1.06-1.06l7.5 7.5Z" clip-rule="evenodd"/>
+          </svg>
+        </span>
+        <div class="mb-5 size-24 overflow-hidden rounded-full bg-primary/10">
+          <%= image_tag "step-family.webp", alt: "年配の女性", class: "size-full object-cover" %>
+        </div>
+        <h3 class="mb-3 text-xl font-bold">見守りたい家族を追加</h3>
+        <p class="text-base leading-relaxed">毎日の「こえ」を<br>届けてもらう家族を登録します。</p>
+      </div>
+
+      <div class="relative flex h-full flex-col items-center rounded-2xl bg-base-100 px-6 pb-7 pt-10 text-center shadow-sm ring-1 ring-base-content/10">
+        <span class="absolute -top-5 flex size-10 items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-content">3</span>
+        <div class="mb-5 size-24 overflow-hidden rounded-full bg-primary/10">
+          <%= image_tag "step-record.webp", alt: "スマートフォンに向かって話す年配の女性", class: "size-full object-cover" %>
+        </div>
+        <h3 class="mb-3 text-xl font-bold">「こえ」を録音</h3>
+        <p class="text-base leading-relaxed">案内に沿って話してもらうだけで、<br>毎日の「こえ」が家族へ届きます。</p>
+      </div>
+    </div>
+  </section>
 
   <div class="text-center py-12 px-5">
-    <h2 class="text-2xl font-bold mb-2">アプリのインストールは不要、まずは<span class="text-warning">無料で</span>お試しください</h2>
-    <p class="text-sm mb-6">登録は1分で完了します。いつでも始められます。</p>
-    <%= link_to "無料で登録する", new_families_registration_path, class: "btn btn-primary btn-lg" %>
+    <h2 class="mb-6 text-3xl font-bold leading-[1.5] tracking-tight md:text-4xl">アプリのインストール不要。<br>すぐに無料で始められます。</h2>
+    <%= link_to "無料で始める", new_families_registration_path, class: "btn btn-primary btn-lg min-h-14 w-64 text-lg" %>
+    <p class="mt-4 text-base text-base-content/70">登録済みの方は <%= link_to "ログイン", new_families_session_path, class: "link link-primary font-bold" %></p>
   </div>
 </div>

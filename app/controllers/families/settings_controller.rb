@@ -13,6 +13,7 @@ class Families::SettingsController < Families::ApplicationController
   end
 
   private
+
   def settings_params
     params.permit(:email, :aikotoba, :notify_at).to_h
   end

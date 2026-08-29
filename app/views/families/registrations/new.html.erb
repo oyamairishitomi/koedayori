@@ -1,64 +1,73 @@
 <% content_for(:title, "新規会員登録｜こえだより") %>
-<div class="w-full flex justify-center items-center">
-  <div class="card flex-col items-center gap-8 p-6 bg-base-100 border border-base-300 w-full max-w-2xl">
+<% content_for :hide_header, true %>
+<div class="flex w-full flex-col items-center gap-6 px-5 pt-8 md:pt-10">
+  <%= link_to root_path, class: "mb-4 block w-56 md:w-72" do %>
+    <%= image_tag "koedayori_brand_green.webp", alt: "こえだより トップページへ", class: "w-full" %>
+  <% end %>
+
+  <div class="card w-full max-w-xl flex-col items-center gap-6 border border-base-300 bg-base-100 p-6">
 
   <%= render "shared/page_title", text: "新規会員登録" %>
-  <%= image_tag "koedayori_mv2.png", alt: "こえだよりのイメージ画像", class: "w-96" %>
-  <div class="divider my-2"></div>
-
   <%= render "shared/error_messages", messages: @family.errors.full_messages %>
 
     <%= form_with model: @family, class: "w-full", url: families_registrations_path do |form| %>
-      <div>
-        <fieldset class="fieldset">
-          <div>
-            <%= form.label :email, class: "label text-base" %>
-            <span class="badge badge-success">必須</span>
+      <div class="mb-6">
+        <fieldset class="fieldset py-0">
+          <div class="flex items-center gap-2">
+            <%= form.label :email, class: "label text-base text-base-content" %>
+            <span class="badge badge-success badge-sm">必須</span>
           </div>
-          <%= form.text_field :email, class: "input mb-4 w-full" , placeholder: "例）taro@example.com"%>
+          <%= form.text_field :email, class: "input w-full" , placeholder: "例）taro@example.com"%>
         </fieldset>
       </div>
 
-      <div>
-        <fieldset class="fieldset">
-          <div>
-            <%= form.label :aikotoba, class: "label text-base" %>
-            <span class="badge badge-success">必須</span>
+      <div class="mb-6">
+        <fieldset class="fieldset py-0">
+          <div class="flex items-center gap-2">
+            <%= form.label :aikotoba, class: "label text-base text-base-content" %>
+            <span class="badge badge-success badge-sm">必須</span>
           </div>
-          <fieldset class="fieldset">
-            <%= image_tag "about_aikotoba.png", alt: "あいことばの説明。「あいことば」を登録し、ご家族の間で共有することで、こえだよりにご家族のどなたでもログインできます。", class: "w-full max-w-md mx-auto" %>
-          </fieldset>
-          <%= form.text_field :aikotoba, class: "input mb-4 w-full", placeholder: "例）yamadafamily" %>
+          <%= form.text_field :aikotoba, class: "input w-full", placeholder: "例）yamadafamily" %>
+          <div class="relative mt-3 rounded-xl bg-[#eaf2f0] p-4 text-sm leading-normal">
+            <span class="absolute -top-3 left-6 h-0 w-0 border-x-[6px] border-b-[12px] border-x-transparent border-b-[#eaf2f0]" aria-hidden="true"></span>
+            <p class="mb-2 text-base font-bold">「あいことば」とは？</p>
+            <p class="mb-1">見守る家族がログインするときに使います。</p>
+            <p>家族で共有する「あいことば」を、半角英数字で決めてください。</p>
+            <p class="mt-1">登録後、「こえ」を聞く家族へ、あいことばとパスワードを伝えます。</p>
+          </div>
         </fieldset>
       </div>
 
-      <div>
-        <fieldset class="fieldset">
-          <div>
-            <%= form.label :password, class: "label text-base" %>
-            <span class="badge badge-success">必須</span>
+      <div class="mb-6">
+        <fieldset class="fieldset py-0">
+          <div class="flex items-center gap-2">
+            <%= form.label :password, class: "label text-base text-base-content" %>
+            <span class="badge badge-success badge-sm">必須</span>
           </div>
-          <fieldset class="fieldset">
-            <p class="label whitespace-normal">半角英数字８文字以上</p>
-          </fieldset>
-          <%= form.password_field :password, class: "input mb-4 w-full"%>
+          <%= form.password_field :password, class: "input w-full"%>
+          <p class="label whitespace-normal text-error">8文字以上</p>
         </fieldset>
       </div>
 
-      <div>
-        <fieldset class="fieldset">
-          <label class="label text-base mb-4">
+      <div class="mb-6">
+        <fieldset class="fieldset py-0">
+          <label class="label mb-2 text-base text-base-content">
             <%= form.check_box :privacy_agreement %>
             <%= link_to "プライバシーポリシー", privacy_path, target: "_blank", rel: "noopener", class: "link" %>に同意する
           </label>
-          <label class="label text-base mb-4">
+          <label class="label text-base text-base-content">
             <%= form.check_box :terms_agreement %>
             <%= link_to "利用規約", terms_path, target: "_blank", rel: "noopener", class: "link" %>に同意する
           </label>
         </fieldset>
-      </div>      
-      <div class="flex justify-center">
-        <%= form.submit "登録する", class: "btn btn-primary btn-lg"%>
       </div>
+
+      <%= form.submit "登録する", class: "btn btn-primary mx-auto flex min-h-12 w-full max-w-sm text-base font-bold"%>
+      <p class="mt-4 text-center">
+        <%= link_to "登録済の方はこちら", new_families_session_path, class: "link link-primary" %>
+      </p>
     <% end %>
+  </div>
+
+  <%= link_to "トップページ", root_path, class: "mt-2 text-primary underline underline-offset-4" %>
 </div>

@@ -1,6 +1,80 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+/*! Yaku Han JP v4.1.1 (OFL-1.1 AND MIT) by Qrac | Type: YakuHanRPs - Based on M PLUS Rounded 1c */
+@font-face {
+  font-family: YakuHanRPs;
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url("YakuHanRPs/YakuHanRPs-Thin.woff2") format("woff2");
+  unicode-range: U+3008, U+3009, U+300A, U+300B, U+300C, U+300D, U+300E, U+300F, U+3010, U+3011, U+3014, U+3015, U+FF08, U+FF09, U+FF3B, U+FF3D, U+FF5B, U+FF5D;
+}
+
+@font-face {
+  font-family: YakuHanRPs;
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("YakuHanRPs/YakuHanRPs-Light.woff2") format("woff2");
+  unicode-range: U+3008, U+3009, U+300A, U+300B, U+300C, U+300D, U+300E, U+300F, U+3010, U+3011, U+3014, U+3015, U+FF08, U+FF09, U+FF3B, U+FF3D, U+FF5B, U+FF5D;
+}
+
+@font-face {
+  font-family: YakuHanRPs;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("YakuHanRPs/YakuHanRPs-Regular.woff2") format("woff2");
+  unicode-range: U+3008, U+3009, U+300A, U+300B, U+300C, U+300D, U+300E, U+300F, U+3010, U+3011, U+3014, U+3015, U+FF08, U+FF09, U+FF3B, U+FF3D, U+FF5B, U+FF5D;
+}
+
+@font-face {
+  font-family: YakuHanRPs;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("YakuHanRPs/YakuHanRPs-Medium.woff2") format("woff2");
+  unicode-range: U+3008, U+3009, U+300A, U+300B, U+300C, U+300D, U+300E, U+300F, U+3010, U+3011, U+3014, U+3015, U+FF08, U+FF09, U+FF3B, U+FF3D, U+FF5B, U+FF5D;
+}
+
+@font-face {
+  font-family: YakuHanRPs;
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("YakuHanRPs/YakuHanRPs-Regular.woff2") format("woff2");
+  unicode-range: U+3008, U+3009, U+300A, U+300B, U+300C, U+300D, U+300E, U+300F, U+3010, U+3011, U+3014, U+3015, U+FF08, U+FF09, U+FF3B, U+FF3D, U+FF5B, U+FF5D;
+}
+
+/* 見出しでもカッコを太くしない */
+@font-face {
+  font-family: YakuHanRPs;
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("YakuHanRPs/YakuHanRPs-Regular.woff2") format("woff2");
+  unicode-range: U+3008, U+3009, U+300A, U+300B, U+300C, U+300D, U+300E, U+300F, U+3010, U+3011, U+3014, U+3015, U+FF08, U+FF09, U+FF3B, U+FF3D, U+FF5B, U+FF5D;
+}
+
+@font-face {
+  font-family: YakuHanRPs;
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("YakuHanRPs/YakuHanRPs-Regular.woff2") format("woff2");
+  unicode-range: U+3008, U+3009, U+300A, U+300B, U+300C, U+300D, U+300E, U+300F, U+3010, U+3011, U+3014, U+3015, U+FF08, U+FF09, U+FF3B, U+FF3D, U+FF5B, U+FF5D;
+}
+
+@font-face {
+  font-family: YakuHanRPs;
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("YakuHanRPs/YakuHanRPs-Regular.woff2") format("woff2");
+  unicode-range: U+3008, U+3009, U+300A, U+300B, U+300C, U+300D, U+300E, U+300F, U+3010, U+3011, U+3014, U+3015, U+FF08, U+FF09, U+FF3B, U+FF3D, U+FF5B, U+FF5D;
+}
+
 @plugin "daisyui/theme" {
   name: "koedayori";
   default: true;
@@ -70,6 +144,7 @@
 
 body {
   font-family:
+    YakuHanRPs,
     "Hiragino Maru Gothic ProN",
     YuGothic,
     sans-serif;
@@ -87,4 +162,109 @@ body {
 
 .animate-draw-circle {
   animation: draw-circle 1s ease-out forwards;
+}
+
+/* 高齢の利用者にも押せることが伝わる、録音専用の立体ボタン */
+.recording-button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  cursor: pointer;
+  touch-action: manipulation;
+  border: 3px solid #216c4f;
+  background: radial-gradient(circle at 36% 27%, #59bb8d 0%, #3aa176 36%, #2f8f68 62%, #206c4d 100%);
+  box-shadow:
+    inset 0 7px 12px rgb(255 255 255 / 22%),
+    inset 0 -12px 16px rgb(17 72 51 / 34%),
+    0 3px 0 #164d38,
+    0 10px 0 #1d6247,
+    0 16px 22px rgb(38 51 46 / 30%);
+  text-shadow: 0 2px 2px rgb(17 66 47 / 45%);
+  transform: translateY(0);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+
+.recording-button::before {
+  position: absolute;
+  z-index: -1;
+  top: 7%;
+  right: 14%;
+  left: 14%;
+  height: 37%;
+  border-radius: 9999px 9999px 45% 45%;
+  background: linear-gradient(180deg, rgb(255 255 255 / 28%), rgb(255 255 255 / 0%));
+  content: "";
+  pointer-events: none;
+}
+
+.recording-button:hover {
+  filter: brightness(1.06);
+}
+
+.recording-button:active {
+  box-shadow:
+    inset 0 8px 14px rgb(17 72 51 / 34%),
+    inset 0 -4px 8px rgb(17 72 51 / 22%),
+    0 2px 0 #1d6247,
+    0 6px 12px rgb(38 51 46 / 24%);
+  transform: translateY(8px);
+}
+
+.recording-button--active {
+  border-color: #9d3636;
+  background: radial-gradient(circle at 36% 27%, #e87878 0%, #d75a5a 36%, #c94a4a 62%, #9f3434 100%);
+  box-shadow:
+    inset 0 7px 12px rgb(255 255 255 / 20%),
+    inset 0 -12px 16px rgb(119 30 30 / 34%),
+    0 3px 0 #762828,
+    0 10px 0 #8f3030,
+    0 16px 22px rgb(93 31 31 / 30%);
+  text-shadow: 0 2px 2px rgb(91 24 24 / 45%);
+}
+
+.recording-button--active:active {
+  box-shadow:
+    inset 0 8px 14px rgb(119 30 30 / 36%),
+    inset 0 -4px 8px rgb(119 30 30 / 22%),
+    0 2px 0 #8f3030,
+    0 6px 12px rgb(93 31 31 / 24%);
+}
+
+.recording-button:disabled {
+  cursor: wait;
+  filter: saturate(0.7);
+  opacity: 0.78;
+}
+
+.recording-again-button {
+  border: 2px solid #216c4f;
+  background: linear-gradient(180deg, #4aaa81 0%, #327a68 58%, #286b59 100%);
+  box-shadow:
+    inset 0 3px 0 rgb(255 255 255 / 24%),
+    inset 0 -4px 0 rgb(20 75 57 / 24%),
+    0 5px 0 #1d5c49,
+    0 9px 14px rgb(38 51 46 / 24%);
+  color: #fff;
+  text-shadow: 0 1px 2px rgb(17 66 47 / 45%);
+  transform: translateY(0);
+  transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+}
+
+.recording-again-button:hover {
+  filter: brightness(1.06);
+}
+
+.recording-again-button:active {
+  box-shadow:
+    inset 0 4px 7px rgb(20 75 57 / 30%),
+    0 1px 0 #1d5c49,
+    0 4px 8px rgb(38 51 46 / 20%);
+  transform: translateY(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recording-button,
+  .recording-again-button {
+    transition: none;
+  }
 }

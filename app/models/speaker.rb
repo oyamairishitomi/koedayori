@@ -14,16 +14,6 @@ class Speaker < ApplicationRecord
     Time.current > deadline
   end
 
-  def today_post
-    posts.find_by(created_at: Time.zone.today.all_day)
-  end
-
-  def status
-    return :inactive unless active
-    return :needs_attention if notifications_needed?
-    :waiting
-  end
-
   private
 
   def generate_slug

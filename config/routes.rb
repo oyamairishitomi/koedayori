@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     resources :registrations, only: [ :new, :create ]
     resource :settings, only: [ :show, :update ]
     resources :withdrawals, only: [ :new, :create ]
-    resources :speakers, only: [ :index, :new, :create, :show ] do
+    resources :speakers, only: [ :index, :new, :create, :show, :edit, :update ] do
       resources :posts, only: [ :index ]
       member do
         patch "deactivate"
