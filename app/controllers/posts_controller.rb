@@ -7,7 +7,7 @@ class PostsController < ApplicationController
     if post.save
       render json: { status: "ok" }
     else
-      render json: { status: "error" }
+      render json: { status: "error", errors: post.errors.full_messages }
     end
   end
 end

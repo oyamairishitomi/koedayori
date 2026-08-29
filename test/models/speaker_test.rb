@@ -13,7 +13,7 @@ class SpeakerTest < ActiveSupport::TestCase
 
   test "今日すでに投稿しているなら、notifications_needed?はfalseを返して終了する" do
     speaker = Speaker.create(family: families(:one), name: "テスト", notifications_enabled: true, active: true, notify_at: Time.current)
-    speaker.posts.create!(created_at: Time.current)
+    speaker.posts.create!(created_at: Time.current, audio: { io: File.open(Rails.root.join("test/fixtures/files/test_audio.webm")), filename: "test_audio.webm", content_type: "audio/webm" })
     assert_not speaker.notifications_needed?
   end
 

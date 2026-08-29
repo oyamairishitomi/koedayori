@@ -3,8 +3,17 @@ class Families::SettingsController < Families::ApplicationController
   end
 
   def update
-    current_family.speakers.update_all(notifications_enabled: true, notify_at: params[:notify_at],)
-    current_family.update(aikotoba: params[:aikotoba], email: params[:email])
-    redirect_to families_speakers_path, notice: "設定を更新しました"
+    current_family.speakers.update_all(settings_params.slice(:notify_at).merge(notifications_enabled: true))
+
+    if current_family.update(settings_params.slice(:email, :aikotoba))
+      redirect_to families_speakers_path, notice: "設定を更新しました。"
+    else
+      render :show, status: :unprocessable_entity
+    end
+  end
+
+  private
+  def settings_params
+    params.permit(:email, :aikotoba, :notify_at).to_h
   end
 end

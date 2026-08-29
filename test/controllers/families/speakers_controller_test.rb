@@ -18,7 +18,7 @@ class Families::SpeakersControllerTest < ActionDispatch::IntegrationTest
   test "受け取り停止にするとactiveがfalseになり、データは残る" do
     family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
     speaker = Speaker.create!(family: family, name: "テスト太郎")
-    post_record = speaker.posts.create!
+    post_record = speaker.posts.create!(audio: fixture_file_upload("test_audio.webm", "audio/webm"))
 
     post families_sessions_path, params: { family: { aikotoba: "aaa", password: "password123" } }
     patch deactivate_families_speaker_path(speaker)

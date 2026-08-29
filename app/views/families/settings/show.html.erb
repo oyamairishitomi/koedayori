@@ -1,6 +1,7 @@
 <% content_for(:title, "こえだよりの設定｜こえだより") %>
 <div class="w-full max-w-2xl mx-auto">
   <%= render "shared/success_messages", messages: [flash[:notice]].compact %>
+  <%= render "shared/error_messages", messages: current_family.errors.full_messages %>
     <%= render "shared/page_title", text: "こえだよりの設定" %>
     <%= form_with url: families_settings_path, method: :patch do |form| %>
     <% speaker = current_family.speakers.first %>

@@ -40,6 +40,8 @@ ja:
         password: "パスワード"
         privacy_agreement: "プライバシーポリシー"
         terms_agreement: "利用規約"
+      post:
+        audio: "音声"
   views:
     pagination:
       first: "&laquo; 最初"

@@ -6,21 +6,16 @@ class Speaker < ApplicationRecord
   has_many :posts, dependent: :destroy
 
   def notifications_needed?
-    return false if posts.find { |post| post.created_at.to_date == Time.zone.today }
+    return false if posts.exists?(created_at: Time.zone.today.all_day)
     return false unless notifications_enabled
     return false unless active
 
     deadline = Time.current.change(hour: notify_at.hour, min: notify_at.min)
-
-    if Time.current > deadline
-      true
-    else
-      false
-    end
+    Time.current > deadline
   end
 
   def today_post
-    posts.find { |post| post.created_at.to_date == Time.zone.today }
+    posts.find_by(created_at: Time.zone.today.all_day)
   end
 
   def status
