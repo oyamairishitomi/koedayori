@@ -33,7 +33,7 @@ class PostTest < ActiveSupport::TestCase
   test "サイズが上限を超えていたら無効" do
     post = Post.new(speaker: speakers(:one))
     post.audio.attach(
-      io: StringIO.new("a" * 11.megabytes),
+      io: StringIO.new("a" * 101.megabytes),
       filename: "big.webm",
       content_type: "audio/webm"
     )

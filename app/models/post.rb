@@ -13,7 +13,7 @@ class Post < ApplicationRecord
     return unless audio.attached?
 
     allowed_types = [ "audio/mpeg", "audio/mp4", "audio/wav", "audio/webm" ]
-    unless allowed_types.include?(audio.content_type)
+    unless allowed_types.include?(audio.content_type.split(";").first)
       audio.purge
       errors.add(:audio, "適切な音声データが送られていません。")
     end
@@ -22,7 +22,7 @@ class Post < ApplicationRecord
   def audio_size
     return unless audio.attached?
 
-    max_size = 10.megabytes
+    max_size = 100.megabytes
     if audio.byte_size > max_size
       errors.add(:audio, "音声が長すぎます")
     end

@@ -1,8 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 
-// サーバー側(Post#audio_size)の10MB上限と足並みを揃えるための、クライアント側の録音時間の上限。
-// 際限なく録音され続けてファイルサイズが膨らむのを防ぐ。
-const MAX_RECORDING_MS = 5 * 60 * 1000 // 5分
+// サーバー側(Post#audio_size)の100MB上限と足並みを揃えるための、クライアント側の録音時間の上限。
+// 際限なく録音され続けてファイルサイズが膨らむのを防ぐ。長話をする人向けに10分まで許容する。
+const MAX_RECORDING_MS = 10 * 60 * 1000 // 10分
 
 export default class extends Controller {
   static targets = [
@@ -25,9 +25,11 @@ export default class extends Controller {
 
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then((stream) => {
-        this.stream = stream
-        this.chunks = []
-        this.recorder = new MediaRecorder(stream)
+      this.stream = stream
+      this.chunks = []
+
+      const mimeType = MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "audio/mp4"
+      this.recorder = new MediaRecorder(stream, { mimeType })
 
         this.recorder.ondataavailable = (event) => {
           this.chunks.push(event.data)
@@ -50,7 +52,10 @@ export default class extends Controller {
         this.buttonLabelTarget.innerHTML = "話し終わったら<br>ここを押す"
         this.statusTarget.textContent = "録音中"
       })
-      .catch(() => {
+      .catch((error) => {
+        if (error.name == "NotAllowedError") {
+          this.micErrorSectionTarget.innerHTML = "iPhoneの設定でマイクが許可されていません。Safariにマイク使用を許可してください"
+        }
         this.stopTimer()
         this.micErrorSectionTarget.classList.remove("hidden")
         this.recordSectionTarget.classList.add("hidden")
@@ -92,7 +97,7 @@ export default class extends Controller {
   }
 
   upload() {
-    const blob = new Blob(this.chunks, { type: "audio/webm" })
+    const blob = new Blob(this.chunks, { type: this.recorder.mimeType })
     const formData = new FormData()
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
     formData.append("audio", blob, "recording.webm")
