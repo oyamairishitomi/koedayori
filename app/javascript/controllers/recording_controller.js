@@ -25,11 +25,13 @@ export default class extends Controller {
 
     navigator.mediaDevices.getUserMedia({ audio: true })
       .then((stream) => {
-      this.stream = stream
-      this.chunks = []
+        this.stream = stream
+        this.chunks = []
 
-      const mimeType = MediaRecorder.isTypeSupported("audio/webm") ? "audio/webm" : "audio/mp4"
-      this.recorder = new MediaRecorder(stream, { mimeType })
+        // mp4/AACはSafari・Chrome双方で安定して再生できるため優先する。
+        // 対応していない環境(古いAndroid Chrome等)だけwebm/Opusにフォールバックする。
+        const mimeType = MediaRecorder.isTypeSupported("audio/mp4") ? "audio/mp4" : "audio/webm"
+        this.recorder = new MediaRecorder(stream, { mimeType })
 
         this.recorder.ondataavailable = (event) => {
           this.chunks.push(event.data)
