@@ -18,6 +18,7 @@ namespace :posts do
     puts "---"
 
     mismatch_count = 0
+    missing_count = 0
 
     target_posts.find_each do |post|
       blob = post.audio.blob
@@ -37,9 +38,14 @@ namespace :posts do
       mismatch_count += 1
       puts "Post ##{post.id} (speaker_id=#{post.speaker_id}, created_at=#{post.created_at}): " \
            "content_type=audio/webm だが実際は #{actual_format} (先頭12バイト: #{head.unpack1("H*")})"
+    rescue ActiveStorage::FileNotFoundError
+      missing_count += 1
+      puts "Post ##{post.id} (speaker_id=#{post.speaker_id}, created_at=#{post.created_at}): " \
+           "DB上はaudioが添付されているが、ストレージ側にファイルが存在しない"
     end
 
     puts "---"
     puts "食い違いが見つかった件数: #{mismatch_count}件 / #{target_posts.count}件"
+    puts "ファイルが見つからなかった件数: #{missing_count}件 / #{target_posts.count}件"
   end
 end
