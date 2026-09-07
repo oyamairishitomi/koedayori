@@ -44,6 +44,6 @@
     end
 
     # テスト用アカウントはこちら（aikotoba:kojifamily pass:kojikoji）
-    Family.find_or_create_by!(email: "koji@koji.com", aikotoba: "kojifamily") do |family|
+    Family.find_or_create_by!(email: "koji@example.com", aikotoba: "kojifamily") do |family|
       family.password = "kojikoji"
     end

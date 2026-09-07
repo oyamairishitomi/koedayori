@@ -2,7 +2,7 @@ require "application_system_test_case"
 
 class SessionsTest < ApplicationSystemTestCase
   test "ログインをする" do
-    family = Family.create!(email: "taro@taro.com", aikotoba: "tarofamily", password: "testtest")
+    family = Family.create!(email: "taro@example.com", aikotoba: "tarofamily", password: "testtest")
 
     visit new_families_session_path
 

@@ -1,11 +1,11 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  email: kouji@kouji.com
+  email: kouji@example.com
   aikotoba: koujikouji
   password_digest: MyString
 
 two:
-  email: hitomi@hitomi.com
+  email: hitomi@example.com
   aikotoba: hitomihitomi
   password_digest: MyString

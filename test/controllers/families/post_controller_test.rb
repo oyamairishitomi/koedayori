@@ -2,7 +2,7 @@ require "test_helper"
 
 class Families::PostControllerTest < ActionDispatch::IntegrationTest
   test "こえがない場合は録音準備へのボタンを表示する" do
-    family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
+    family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
     speaker = Speaker.create!(family: family, name: "テスト太郎")
     post families_sessions_path, params: { family: { aikotoba: "aaa", password: "password123" } }
 
@@ -13,7 +13,7 @@ class Families::PostControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "こえ一覧に再生状況を表示しない" do
-    family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
+    family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
     speaker = Speaker.create!(family: family, name: "テスト太郎")
     post_record = speaker.posts.create!(created_at: Time.current, audio: { io: File.open(Rails.root.join("test/fixtures/files/test_audio.webm")), filename: "test_audio.webm", content_type: "audio/webm" })
     post families_sessions_path, params: { family: { aikotoba: "aaa", password: "password123" } }

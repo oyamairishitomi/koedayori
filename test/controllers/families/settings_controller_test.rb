@@ -2,7 +2,7 @@ require "test_helper"
 
 class Families::SettingsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
+    @family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
     @speaker = Speaker.create!(family: @family, name: "テスト太郎")
     post families_sessions_path, params: { family: { aikotoba: "aaa", password: "password123" } }
   end
@@ -30,14 +30,14 @@ class Families::SettingsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "他の家族と同じメールアドレスに変更しようとすると失敗し、元のメールアドレスのまま" do
-    Family.create!(email: "taken@test.com", aikotoba: "ccc", password: "password123")
-    family = Family.create!(email: "a@test.com", aikotoba: "bbb", password: "password123")
+    Family.create!(email: "taken@example.com", aikotoba: "ccc", password: "password123")
+    family = Family.create!(email: "a@example.com", aikotoba: "bbb", password: "password123")
     post families_sessions_path, params: { family: { aikotoba: family.aikotoba, password: "password123" } }
 
-    patch families_settings_path, params: { email: "taken@test.com", aikotoba: family.aikotoba }
+    patch families_settings_path, params: { email: "taken@example.com", aikotoba: family.aikotoba }
 
     assert_response :unprocessable_entity
     family.reload
-    assert_equal "a@test.com", family.email
+    assert_equal "a@example.com", family.email
   end
 end

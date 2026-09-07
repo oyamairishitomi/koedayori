@@ -5,7 +5,7 @@ one:
   name: Koji Komeda
   slug: jicai2v3y8qvwt73w
   notify_at: 2026-08-05 23:36:50
-  notification_email: kouji@kouji.com
+  notification_email: kouji@example.com
   notifications_enabled: true
   active: true
 
@@ -14,6 +14,6 @@ two:
   name: Hitomi Tezuka
   slug: 8qvcnp834vt4aali84sve4
   notify_at: 2026-08-05 23:36:50
-  notification_email: hitomi@hitomi.com
+  notification_email: hitomi@example.com
   notifications_enabled: false
   active: false

@@ -2,7 +2,7 @@ require "test_helper"
 
 class Families::SpeakersControllerTest < ActionDispatch::IntegrationTest
   test "今日の「こえ」に最終録音情報を表示する" do
-    family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
+    family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
     speaker = Speaker.create!(family: family, name: "テスト太郎")
     theme = Theme.create!(title: "今日の気分")
     post_record = speaker.posts.create!(theme: theme, created_at: Time.zone.now, audio: { io: File.open(Rails.root.join("test/fixtures/files/test_audio.webm")), filename: "test_audio.webm", content_type: "audio/webm" })
@@ -26,7 +26,7 @@ class Families::SpeakersControllerTest < ActionDispatch::IntegrationTest
 
   test "人名の右に最後の投稿からの経過時間を表示する" do
     travel_to Time.zone.local(2026, 8, 28, 17, 52, 0) do
-      family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
+      family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
       speaker = Speaker.create!(family: family, name: "テスト太郎")
       speaker.posts.create!(created_at: 5.hours.ago, audio: { io: File.open(Rails.root.join("test/fixtures/files/test_audio.webm")), filename: "test_audio.webm", content_type: "audio/webm" })
       post families_sessions_path, params: { family: { aikotoba: "aaa", password: "password123" } }
@@ -40,7 +40,7 @@ class Families::SpeakersControllerTest < ActionDispatch::IntegrationTest
 
   test "最後の投稿から30時間以上経過したら赤字で表示する" do
     travel_to Time.zone.local(2026, 8, 28, 17, 52, 0) do
-      family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
+      family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
       speaker = Speaker.create!(family: family, name: "テスト太郎")
       speaker.posts.create!(created_at: 30.hours.ago, audio: { io: File.open(Rails.root.join("test/fixtures/files/test_audio.webm")), filename: "test_audio.webm", content_type: "audio/webm" })
       post families_sessions_path, params: { family: { aikotoba: "aaa", password: "password123" } }
@@ -53,7 +53,7 @@ class Families::SpeakersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "録音がない家族には未着通知ではなく録音準備へのリンクを表示する" do
-    family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
+    family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
     speaker = Speaker.create!(family: family, name: "テスト太郎", notify_at: "00:00")
     post families_sessions_path, params: { family: { aikotoba: "aaa", password: "password123" } }
 
@@ -72,7 +72,7 @@ class Families::SpeakersControllerTest < ActionDispatch::IntegrationTest
 
   test "設定時刻を過ぎても今日のこえがなければカードヘッダーで知らせる" do
     travel_to Time.zone.local(2026, 8, 28, 12, 0, 0) do
-      family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
+      family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
       speaker = Speaker.create!(family: family, name: "テスト太郎", notify_at: "10:00")
       speaker.posts.create!(created_at: 1.day.ago, audio: { io: File.open(Rails.root.join("test/fixtures/files/test_audio.webm")), filename: "test_audio.webm", content_type: "audio/webm" })
       post families_sessions_path, params: { family: { aikotoba: "aaa", password: "password123" } }
@@ -85,21 +85,21 @@ class Families::SpeakersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "有効な名前の家族（Speaker）を追加する" do
-    family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
+    family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
     post families_sessions_path, params: { family: { aikotoba: "aaa", password: "password123" } }
     post families_speakers_path, params: { speaker: { name: "テスト太郎" } }
     assert_redirected_to families_speaker_path(Speaker.last)
   end
 
   test "無効な名前の家族（Speaker）の追加に失敗する" do
-    family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
+    family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
     post families_sessions_path, params: { family: { aikotoba: "aaa", password: "password123" } }
     post families_speakers_path, params: { speaker: { name: nil } }
     assert_response :unprocessable_entity
   end
 
   test "受け取り停止にするとactiveがfalseになり、データは残る" do
-    family = Family.create!(email: "test@test.com", aikotoba: "aaa", password: "password123")
+    family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
     speaker = Speaker.create!(family: family, name: "テスト太郎")
     post_record = speaker.posts.create!(audio: fixture_file_upload("test_audio.webm", "audio/webm"))
 
