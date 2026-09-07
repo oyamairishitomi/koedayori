@@ -10,8 +10,9 @@ class Speaker < ApplicationRecord
     return false unless notifications_enabled
     return false unless active
 
-    deadline = Time.current.change(hour: notify_at.hour, min: notify_at.min)
-    Time.current > deadline
+    now = Time.current
+    deadline = now.change(hour: notify_at.hour, min: notify_at.min)
+    now > deadline
   end
 
   private
