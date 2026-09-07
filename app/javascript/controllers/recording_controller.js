@@ -17,7 +17,7 @@ export default class extends Controller {
     "retryBtn"
   ]
 
-  static values = { slug: String }
+  static values = { slug: String, themeId: Number }
 
   start() {
     this.toggleBtnTarget.disabled = true
@@ -103,6 +103,7 @@ export default class extends Controller {
     const formData = new FormData()
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
     formData.append("audio", blob, "recording.webm")
+    formData.append("theme_id", this.themeIdValue)
 
     fetch(`/speakers/${this.slugValue}/posts`, {
       method: "POST",

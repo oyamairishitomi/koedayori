@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   def create
     speaker = Speaker.find_by!(slug: params[:slug])
-    post = speaker.posts.new(theme: Theme.choose)
+    post = speaker.posts.new(theme: Theme.find(params[:theme_id]))
     post.audio.attach(params[:audio])
 
     if post.save

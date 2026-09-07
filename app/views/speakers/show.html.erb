@@ -5,7 +5,7 @@
   <h1 class="mb-6 mt-8 text-center text-2xl font-bold text-primary sm:text-3xl">「こえ」を録音する</h1>
 
   <div class="card w-full max-w-lg rounded-2xl border border-base-300 bg-white p-5 text-center shadow-sm sm:p-8">
-    <div data-controller="recording" data-recording-slug-value="<%= params[:slug] %>">
+    <div data-controller="recording" data-recording-slug-value="<%= params[:slug] %>" data-recording-theme-id-value="<%= @theme.id %>">
       <div class="mb-6 hidden text-center text-xl font-bold" data-recording-target="errorSection" role="alert">
         <p>うまく届きませんでした。<br>ご家族に相談するか、もう一度録音してください。</p>
         <button data-recording-target="retryBtn" data-action="click->recording#retry" class="btn btn-error mt-4">もう一度こえを録音する</button>
