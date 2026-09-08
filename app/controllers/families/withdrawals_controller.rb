@@ -4,7 +4,7 @@ class Families::WithdrawalsController < Families::ApplicationController
 
   def create
     current_family.destroy
-    session[:family_id] = nil
+    reset_session
     redirect_to root_path
   end
 end
