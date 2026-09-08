@@ -4,6 +4,7 @@ class SpeakersTest < ApplicationSystemTestCase
   test "ご家族の受け取り停止" do
     family = Family.create!(email: "taro@example.com", aikotoba: "tarofamily", password: "testtest")
     speaker = Speaker.create!(family: family, name: "テスト太郎")
+    assert speaker.active
 
     visit new_families_session_path
 
