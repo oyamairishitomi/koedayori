@@ -56,6 +56,11 @@
             <%= form.label :email, "メールアドレスの変更", class: "label mb-2 font-bold text-base-content" %>
             <%= form.email_field :email, value: current_family.email, class: "input w-full" %>
           </div>
+          <div>
+            <%= form.label :current_password, "現在のパスワード", class: "label mb-2 font-bold text-base-content" %>
+            <p class="mb-2 text-sm text-base-content/70">「あいことば」またはメールアドレスを変更するときだけ入力してください。</p>
+            <%= form.password_field :current_password, autocomplete: "current-password", class: "input w-full" %>
+          </div>
         </div>
       </div>
     </fieldset>

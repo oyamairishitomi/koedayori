@@ -21,7 +21,7 @@ class Families::SettingsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "設定を更新すると画面上のお知らせを有効に保つ" do
-    patch families_settings_path, params: { notify_at: "18:00", aikotoba: "newword", email: "new@example.com" }
+    patch families_settings_path, params: { notify_at: "18:00", aikotoba: "newword", email: "new@example.com", current_password: "password123" }
 
     assert_redirected_to families_speakers_path
     assert @speaker.reload.notifications_enabled
@@ -29,12 +29,28 @@ class Families::SettingsControllerTest < ActionDispatch::IntegrationTest
     assert_equal "newword", @family.reload.aikotoba
   end
 
+  test "現在のパスワードが誤っているとログイン情報を変更できない" do
+    patch families_settings_path, params: { aikotoba: "newword", email: "new@example.com", current_password: "wrongpass" }
+
+    assert_response :unprocessable_entity
+    @family.reload
+    assert_equal "aaa", @family.aikotoba
+    assert_equal "test@example.com", @family.email
+  end
+
+  test "ログイン情報を変えずお知らせ時刻だけ更新する場合はパスワード不要" do
+    patch families_settings_path, params: { notify_at: "20:00", aikotoba: "aaa", email: "test@example.com" }
+
+    assert_redirected_to families_speakers_path
+    assert_equal "20:00", @speaker.reload.notify_at.strftime("%H:%M")
+  end
+
   test "他の家族と同じメールアドレスに変更しようとすると失敗し、元のメールアドレスのまま" do
     Family.create!(email: "taken@example.com", aikotoba: "ccc", password: "password123")
     family = Family.create!(email: "a@example.com", aikotoba: "bbb", password: "password123")
     post families_sessions_path, params: { family: { aikotoba: family.aikotoba, password: "password123" } }
 
-    patch families_settings_path, params: { email: "taken@example.com", aikotoba: family.aikotoba }
+    patch families_settings_path, params: { email: "taken@example.com", aikotoba: family.aikotoba, current_password: "password123" }
 
     assert_response :unprocessable_entity
     family.reload
