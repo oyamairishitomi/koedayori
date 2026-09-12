@@ -7,6 +7,33 @@ class Post < ApplicationRecord
   validate :audio_content_type
   validate :audio_size
 
+  def created_at_label
+    if created_at.to_date == Time.zone.today
+      "今日 #{created_at.strftime("%H:%M")}"
+    else
+      created_at.strftime("%Y年%-m月%-d日 %H:%M")
+    end
+  end
+
+  def arrived_message
+    theme_part = theme&.title.present? ? "「#{theme.title}」の" : ""
+    "#{created_at_label} に#{theme_part}「こえ」が届きました。"
+  end
+
+  def elapsed_hours
+    [ ((Time.current - created_at) / 1.hour).floor, 0 ].max
+  end
+
+  def elapsed_label
+    return "最後の投稿から1時間未満" if elapsed_hours.zero?
+
+    "最後の投稿から#{elapsed_hours}時間経過"
+  end
+
+  def elapsed_warning?
+    elapsed_hours >= 30
+  end
+
   private
 
   def audio_content_type
