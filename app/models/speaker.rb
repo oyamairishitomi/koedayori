@@ -5,6 +5,12 @@ class Speaker < ApplicationRecord
 
   has_many :posts, dependent: :destroy
 
+  scope :active, -> { where(active: true) }
+
+  def latest_post
+    posts.max_by(&:created_at)
+  end
+
   def notifications_needed?
     return false if posts.exists?(created_at: Time.zone.today.all_day)
     return false unless notifications_enabled

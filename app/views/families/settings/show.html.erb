@@ -34,7 +34,11 @@
           <% current_family.speakers.each do |registered_speaker| %>
             <li class="flex flex-col gap-3 py-4 first:pt-1 last:pb-1 sm:flex-row sm:items-center sm:justify-between">
               <span class="font-bold"><%= registered_speaker.name %></span>
-              <%= link_to "録音の準備方法を確認", families_speaker_path(registered_speaker), class: "btn btn-outline btn-sm" %>
+              <% if registered_speaker.active? %>
+                <%= link_to "録音の準備方法を確認", families_speaker_path(registered_speaker), class: "btn btn-outline btn-sm" %>
+              <% else %>
+                <span class="text-sm font-bold text-base-content/50">受け取りを停止済み</span>
+              <% end %>
             </li>
           <% end %>
         </ul>
@@ -74,7 +78,11 @@
       <% current_family.speakers.each do |registered_speaker| %>
         <li class="flex flex-col gap-3 py-4 first:pt-0 sm:flex-row sm:items-center sm:justify-between">
           <span><%= registered_speaker.name %>さんのこえの受け取り</span>
-          <%= link_to "受け取りを停止する", deactivate_families_speaker_path(registered_speaker), class: "btn btn-outline btn-error btn-sm", data: { turbo_method: :patch, turbo_confirm: "#{registered_speaker.name}さんのこえの受け取りを停止します。停止後は再開できません。よろしいですか？" } %>
+          <% if registered_speaker.active? %>
+            <%= link_to "受け取りを停止する", deactivate_families_speaker_path(registered_speaker), class: "btn btn-outline btn-error btn-sm", data: { turbo_method: :patch, turbo_confirm: "#{registered_speaker.name}さんのこえの受け取りを停止します。停止後は再開できません。よろしいですか？" } %>
+          <% else %>
+            <span class="text-sm font-bold text-base-content/50">停止済み(再開はできません)</span>
+          <% end %>
         </li>
       <% end %>
     </ul>

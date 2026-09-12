@@ -5,7 +5,7 @@ class PostsController < ApplicationController
     with: -> { render json: { status: "error", errors: [ "しばらくしてからもう一度お試しください。" ] }, status: :too_many_requests }
 
   def create
-    speaker = Speaker.find_by!(slug: params[:slug])
+    speaker = Speaker.active.find_by!(slug: params[:slug])
     post = speaker.posts.new(theme: Theme.find(params[:theme_id]))
     post.audio.attach(params[:audio])
 

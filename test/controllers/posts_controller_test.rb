@@ -24,6 +24,18 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
+  test "受け取り停止中のSpeakerには投稿できない" do
+    family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
+    speaker = Speaker.create!(family: family, name: "テスト太郎", active: false)
+    audio_file = fixture_file_upload("test_audio.webm", "audio/webm")
+
+    assert_no_difference "Post.count" do
+      post "/speakers/#{speaker.slug}/posts", params: { audio: audio_file, theme_id: themes(:one).id }
+    end
+
+    assert_response :not_found
+  end
+
   test "音声ファイルがないとPostが作成されない" do
     family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
     speaker = Speaker.create!(family: family, name: "テスト太郎")

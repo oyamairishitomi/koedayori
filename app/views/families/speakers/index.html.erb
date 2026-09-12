@@ -24,7 +24,7 @@
   <% else %>
     <ul class="grid grid-cols-1 gap-4">
       <% @speakers.each do |speaker| %>
-        <% latest_post = speaker.posts.max_by(&:created_at) %>
+        <% latest_post = speaker.latest_post %>
         <li class="card overflow-hidden border border-base-300 bg-base-100 shadow-sm transition-shadow hover:shadow-md <%= "opacity-60" unless speaker.active? %>">
           <% if latest_post && speaker.notifications_needed? %>
             <div class="bg-error px-5 py-2.5 text-center text-sm font-bold text-error-content">今日の「こえ」がまだ届いていません。</div>
@@ -36,27 +36,21 @@
             <h2 class="card-title w-full flex-col items-start gap-x-4 gap-y-1 text-xl sm:flex-row sm:items-center sm:justify-between">
               <%= link_to speaker.name, families_speaker_posts_path(speaker), class: "text-base-content no-underline underline-offset-4 hover:underline focus-visible:rounded focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" %>
               <% if latest_post %>
-                <span class="text-sm font-normal <%= last_post_elapsed_warning?(latest_post) ? "text-error" : "text-base-content/50" %>"><%= last_post_elapsed_label(latest_post) %></span>
+                <span class="text-sm font-normal <%= latest_post.elapsed_warning? ? "text-error" : "text-base-content/50" %>"><%= latest_post.elapsed_label %></span>
               <% end %>
             </h2>
 
             <% if latest_post %>
               <div class="grid gap-4 md:grid-cols-[minmax(0,1fr)_16rem] md:items-start md:gap-6">
                 <div class="space-y-3">
-                  <p class="leading-relaxed">
-                    <%= latest_post.created_at.to_date == Time.zone.today ? "今日 #{latest_post.created_at.strftime("%H:%M")}" : latest_post.created_at.strftime("%Y年%-m月%-d日 %H:%M") %> に
-                    <% if latest_post.theme&.title.present? %>
-                      「<%= latest_post.theme.title %>」の
-                    <% end %>
-                    「こえ」が届きました。
-                  </p>
+                  <p class="leading-relaxed"><%= latest_post.arrived_message %></p>
 
                   <% if latest_post.audio.attached? %>
                     <%= render "families/posts/audio_player", post: latest_post %>
                   <% end %>
 
                   <% unless speaker.active? %>
-                    <p class="text-sm font-bold">受け取り停止中</p>
+                    <p class="text-sm font-bold">受け取りを停止済み(再開はできません)</p>
                   <% end %>
                 </div>
 
@@ -66,7 +60,7 @@
                   <% end %>
                 </div>
               </div>
-            <% else %>
+            <% elsif speaker.active? %>
               <div class="grid gap-4 rounded-lg border border-warning/40 bg-warning/15 px-4 py-4 text-base-content md:grid-cols-[minmax(0,1fr)_16rem] md:items-center md:gap-6">
                 <div class="flex items-center gap-4">
                   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-10 shrink-0 text-warning" aria-hidden="true">
@@ -81,10 +75,8 @@
                   <span>録音の準備方法を<br>開始する</span>
                 <% end %>
               </div>
-
-              <% unless speaker.active? %>
-                <p class="text-sm font-bold">受け取り停止中</p>
-              <% end %>
+            <% else %>
+              <p class="text-sm font-bold">受け取りを停止済み(再開はできません)</p>
             <% end %>
           </div>
         </li>
