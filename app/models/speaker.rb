@@ -8,7 +8,7 @@ class Speaker < ApplicationRecord
   scope :active, -> { where(active: true) }
 
   def latest_post
-    posts.max_by(&:created_at)
+    posts.order(created_at: :desc).first
   end
 
   def notifications_needed?
