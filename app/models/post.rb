@@ -49,6 +49,12 @@ class Post < ApplicationRecord
   def audio_size
     return unless audio.attached?
 
+    if audio.byte_size.zero?
+      audio.purge
+      errors.add(:audio, "音声データが記録されていません。もう一度録音してください。")
+      return
+    end
+
     max_size = 100.megabytes
     if audio.byte_size > max_size
       errors.add(:audio, "音声が長すぎます")

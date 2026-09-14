@@ -30,6 +30,18 @@ class PostTest < ActiveSupport::TestCase
     assert post.valid?
   end
 
+  test "音声データが0バイトなら無効" do
+    post = Post.new(speaker: speakers(:one))
+    post.audio.attach(
+      io: StringIO.new(""),
+      filename: "empty.mp4",
+      content_type: "audio/mp4"
+    )
+
+    assert_not post.valid?
+    assert_includes post.errors[:audio], "音声データが記録されていません。もう一度録音してください。"
+  end
+
   test "サイズが上限を超えていたら無効" do
     post = Post.new(speaker: speakers(:one))
     post.audio.attach(

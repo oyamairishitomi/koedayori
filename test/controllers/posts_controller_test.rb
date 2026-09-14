@@ -49,6 +49,20 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert(response_body["errors"].any? { |message| message.include?("入力してください") })
   end
 
+  test "空(0バイト)の音声ファイルを送るとPostが作成されない" do
+    family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
+    speaker = Speaker.create!(family: family, name: "テスト太郎")
+    empty_file = fixture_file_upload("empty_audio.mp4", "audio/mp4")
+
+    assert_no_difference "Post.count" do
+      post "/speakers/#{speaker.slug}/posts", params: { audio: empty_file, theme_id: themes(:one).id }
+    end
+
+    response_body = JSON.parse(response.body)
+    assert_equal "error", response_body["status"]
+    assert(response_body["errors"].any? { |message| message.include?("もう一度録音してください") })
+  end
+
   test "音声以外のファイルを送るとPostが作成されない" do
     family = Family.create!(email: "test@example.com", aikotoba: "aaa", password: "password123")
     speaker = Speaker.create!(family: family, name: "テスト太郎")

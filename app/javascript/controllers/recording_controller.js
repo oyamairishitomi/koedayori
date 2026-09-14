@@ -38,7 +38,9 @@ export default class extends Controller {
         }
 
         this.recorder.onstop = () => this.upload()
-        this.recorder.start()
+        // timesliceを指定して定期的にondataavailableを発火させる。
+        // Safariはtimesliceを指定しないと、特に短い録音でデータが空になることがある既知の挙動があるため。
+        this.recorder.start(1000)
         this.startTimer()
 
         this.maxDurationTimeoutId = setTimeout(() => {
@@ -100,6 +102,13 @@ export default class extends Controller {
 
   upload() {
     const blob = new Blob(this.chunks, { type: this.recorder.mimeType })
+
+    if (blob.size === 0) {
+      this.errorSectionTarget.classList.remove("hidden")
+      this.recordSectionTarget.classList.add("hidden")
+      return
+    }
+
     const formData = new FormData()
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content
     formData.append("audio", blob, "recording.webm")
