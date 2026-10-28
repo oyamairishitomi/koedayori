@@ -68,6 +68,6 @@ end
 
 gem "rails-i18n"
 
-gem "kaminari", "~> 1.2.2"
+gem "kaminari", "~> 1.3.0"
 
 gem "aws-sdk-s3", "~> 1.225", require: false
